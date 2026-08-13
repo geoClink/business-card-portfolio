@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Portfolio | Print & Digital Design</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <span class="badge">Portfolio & Design Studio</span>
+            <h1>Crafting Memorable Brand Collateral</h1>
+            <p>Specializing in eye-catching business cards, impactful flyers, and high-converting marketing materials built with HTML, CSS, and modern web standards.</p>
+            <a href="#portfolio" class="btn">View Works</a>
+        </div>
+    </header>
+
+    <main class="container" id="portfolio">
+        <div class="section-title">
+            <h2>Featured Projects</h2>
+            <p>Explore my recent work in print and digital layouts.</p>
+        </div>
+
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">All Work</button>
+            <button class="filter-btn" data-filter="business-cards">Business Cards</button>
+            <button class="filter-btn" data-filter="flyers">Flyers</button>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item" data-category="business-cards">
+                <div class="card-inner" style="background: linear-gradient(135deg, #1f2937, #111827);">
+                    <div class="card-content">
+                        <h3>Minimalist Luxe</h3>
+                        <span class="tag">Business Card</span>
+                    </div>
+                </div>
+                <div class="item-overlay">
+                    <button class="view-btn" onclick="openModal('Minimalist Luxe', 'A sleek, modern business card design featuring gold foil accents and matte black cardstock.', 'Business Card')">View Details</button>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="flyers">
+                <div class="card-inner" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">
+                    <div class="card-content">
+                        <h3>Summer Music Festival</h3>
+                        <span class="tag">Flyer Design</span>
+                    </div>
+                </div>
+                <div class="item-overlay">
+                    <button class="view-btn" onclick="openModal('Summer Music Festival', 'Vibrant, high-energy flyer layout designed for print and social media promotion.', 'Flyer')">View Details</button>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="business-cards">
+                <div class="card-inner" style="background: linear-gradient(135deg, #059669, #10b981);">
+                    <div class="card-content">
+                        <h3>Eco-Friendly Botanicals</h3>
+                        <span class="tag">Business Card</span>
+                    </div>
+                </div>
+                <div class="item-overlay">
+                    <button class="view-btn" onclick="openModal('Eco-Friendly Botanicals', 'Organic typography and earthy tones tailored for a sustainable plant boutique.', 'Business Card')">View Details</button>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="flyers">
+                <div class="card-inner" style="background: linear-gradient(135deg, #db2777, #f43f5e);">
+                    <div class="card-content">
+                        <h3>Grand Opening Sale</h3>
+                        <span class="tag">Flyer Design</span>
+                    </div>
+                </div>
+                <div class="item-overlay">
+                    <button class="view-btn" onclick="openModal('Grand Opening Sale', 'A bold, attention-grabbing promotional flyer built to maximize foot traffic and conversions.', 'Flyer')">View Details</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <span id="modalCategory" class="badge"></span>
+            <h2 id="modalTitle">Project Title</h2>
+            <p id="modalDesc">Project description goes here.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Creative Portfolio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
