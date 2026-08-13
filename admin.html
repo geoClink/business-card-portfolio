@@ -858,12 +858,11 @@
     ];
 
     const DEFAULT_WORK_ITEMS = [
-        { title: 'Minimalist Luxe',   desc: 'A sleek, minimal business card with gold accent type and matte black stock — built for professionals who let the design do the talking.', category: 'Business Card', image: '' },
-        { title: 'Summer Music Fest', desc: 'Vibrant, high-energy event flyer built for print and social — designed to stop the scroll and sell tickets.',                           category: 'Flyer',         image: '' },
-        { title: 'Grand Opening',     desc: 'Bold promotional flyer with large type and high-contrast color blocking. Built to bring foot traffic in the door.',                     category: 'Flyer',         image: '' },
-        { title: 'Eco Botanicals',    desc: 'Organic typography and earthy tones designed for a sustainable plant boutique. Printed on recycled kraft stock.',                      category: 'Business Card', image: '' },
-        { title: 'Community Cookout', desc: 'Friendly, community-focused event flyer with a clean layout that holds up in print and online.',                                      category: 'Flyer',         image: '' },
-        { title: 'Bold & Warm',       desc: 'High-contrast warm tones with a chunky serif wordmark. Made for food, lifestyle, and hospitality brands.',                            category: 'Business Card', image: '' },
+        { title: 'White Bear Harmonics',       desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Custom logo, branded navy palette, and a services QR code on the back — drag to flip.',          category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG' },
+        { title: 'Graduation Party Invite',    desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',               category: 'Flyer',         image: 'emmalee-grad-invite.PNG',          imageBack: '' },
+        { title: 'Graduation Thank You',       desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: '' },
+        { title: 'George Clinkscales',         desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.', category: 'Business Card', image: 'george-card.JPG',                  imageBack: '' },
+        { title: 'White Bear Harmonics Print', desc: 'Real-world print mockup of the finished card — showing how the navy front and white services back look together fresh from the printer.',                                      category: 'Business Card', image: 'karen-card.JPG',                   imageBack: '' },
     ];
 
     // ── Auth ──
@@ -962,17 +961,27 @@
             descLabel.appendChild(descArea);
 
             const imageLabel = document.createElement('label');
-            imageLabel.textContent = 'Image filename (e.g. my-card.jpg)';
+            imageLabel.textContent = 'Front image filename';
             const imageInput = document.createElement('input');
             imageInput.type        = 'text';
             imageInput.id          = 'f-work-' + i + '-image';
             imageInput.value       = item.image || '';
-            imageInput.placeholder = 'e.g. minimalist-luxe.jpg';
+            imageInput.placeholder = 'e.g. card-front.jpg';
             imageLabel.appendChild(imageInput);
+
+            const imageBackLabel = document.createElement('label');
+            imageBackLabel.textContent = 'Back image filename (optional — enables 3D spin)';
+            const imageBackInput = document.createElement('input');
+            imageBackInput.type        = 'text';
+            imageBackInput.id          = 'f-work-' + i + '-imageBack';
+            imageBackInput.value       = item.imageBack || '';
+            imageBackInput.placeholder = 'e.g. card-back.jpg';
+            imageBackLabel.appendChild(imageBackInput);
 
             block.appendChild(titleLabel);
             block.appendChild(descLabel);
             block.appendChild(imageLabel);
+            block.appendChild(imageBackLabel);
             grid.appendChild(block);
         });
     }
@@ -1011,7 +1020,8 @@
             ...item,
             title: (document.getElementById('f-work-' + i + '-title') || {}).value || item.title,
             desc:  (document.getElementById('f-work-' + i + '-desc')  || {}).value || item.desc,
-            image: (document.getElementById('f-work-' + i + '-image') || {}).value ?? (item.image || ''),
+            image:     (document.getElementById('f-work-' + i + '-image')     || {}).value ?? (item.image     || ''),
+            imageBack: (document.getElementById('f-work-' + i + '-imageBack') || {}).value ?? (item.imageBack || ''),
         }));
 
         const reviews = DEFAULT_REVIEWS.map((_, i) => ({

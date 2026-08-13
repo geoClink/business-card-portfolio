@@ -80,13 +80,18 @@ const DEFAULT_CONTENT = {
 };
 
 const DEFAULT_WORK_ITEMS = [
-    { title: 'Minimalist Luxe',   desc: 'A sleek, minimal business card with gold accent type and matte black stock — built for professionals who let the design do the talking.', category: 'Business Card', image: '' },
-    { title: 'Summer Music Fest', desc: 'Vibrant, high-energy event flyer built for print and social — designed to stop the scroll and sell tickets.',                           category: 'Flyer',         image: '' },
-    { title: 'Grand Opening',     desc: 'Bold promotional flyer with large type and high-contrast color blocking. Built to bring foot traffic in the door.',                     category: 'Flyer',         image: '' },
-    { title: 'Eco Botanicals',    desc: 'Organic typography and earthy tones designed for a sustainable plant boutique. Printed on recycled kraft stock.',                      category: 'Business Card', image: '' },
-    { title: 'Community Cookout', desc: 'Friendly, community-focused event flyer with a clean layout that holds up in print and online.',                                      category: 'Flyer',         image: '' },
-    { title: 'Bold & Warm',       desc: 'High-contrast warm tones with a chunky serif wordmark. Made for food, lifestyle, and hospitality brands.',                            category: 'Business Card', image: '' },
+    { title: 'White Bear Harmonics',       desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Custom logo, branded navy palette, and a services QR code on the back — drag to flip.',          category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG' },
+    { title: 'Graduation Party Invite',    desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',               category: 'Flyer',         image: 'emmalee-grad-invite.PNG',          imageBack: '' },
+    { title: 'Graduation Thank You',       desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: '' },
+    { title: 'George Clinkscales',         desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.', category: 'Business Card', image: 'george-card.JPG',                  imageBack: '' },
+    { title: 'White Bear Harmonics Print', desc: 'Real-world print mockup of the finished card — showing how the navy front and white services back look together fresh from the printer.',                                      category: 'Business Card', image: 'karen-card.JPG',                   imageBack: '' },
 ];
+
+// Reset work_items if they're from the old placeholder data (no image field)
+(function() {
+    const saved = JSON.parse(localStorage.getItem('work_items') || 'null');
+    if (saved && !saved[0].image && !saved[0].imageBack) localStorage.removeItem('work_items');
+})();
 
 const workItems = JSON.parse(localStorage.getItem('work_items') || 'null') || DEFAULT_WORK_ITEMS;
 
@@ -164,6 +169,13 @@ function loadContent() {
             item.style.backgroundSize     = 'cover';
             item.style.backgroundPosition = 'center';
             item.classList.add('has-image');
+        }
+
+        if (work.imageBack) {
+            const badge = document.createElement('span');
+            badge.className   = 'badge-3d';
+            badge.textContent = '3D ✦';
+            item.appendChild(badge);
         }
 
         item.addEventListener('click', () => openModal(idx));
@@ -269,6 +281,67 @@ filterButtons.forEach(btn => {
     });
 });
 
+// ── 3D card rotation ──
+
+let spinAnimFrame  = null;
+let spinAngle      = 0;
+let isDragging3D   = false;
+let drag3DStartX   = 0;
+let drag3DBaseAngle = 0;
+
+const card3dEl    = document.getElementById('modal-card-3d');
+const card3dScene = document.getElementById('card-3d-scene');
+
+function applyCardAngle(deg) {
+    card3dEl.style.transform = `rotateY(${deg}deg)`;
+}
+
+function start3DSpin() {
+    stop3DSpin();
+    function tick() {
+        if (!isDragging3D) {
+            spinAngle += 0.45;
+            applyCardAngle(spinAngle);
+        }
+        spinAnimFrame = requestAnimationFrame(tick);
+    }
+    spinAnimFrame = requestAnimationFrame(tick);
+}
+
+function stop3DSpin() {
+    if (spinAnimFrame) { cancelAnimationFrame(spinAnimFrame); spinAnimFrame = null; }
+}
+
+card3dEl.addEventListener('mousedown', e => {
+    isDragging3D   = true;
+    drag3DStartX   = e.clientX;
+    drag3DBaseAngle = spinAngle;
+    card3dEl.style.transition = 'none';
+});
+
+document.addEventListener('mousemove', e => {
+    if (!isDragging3D) return;
+    spinAngle = drag3DBaseAngle + (e.clientX - drag3DStartX) * 0.55;
+    applyCardAngle(spinAngle);
+});
+
+document.addEventListener('mouseup', () => { isDragging3D = false; });
+
+card3dEl.addEventListener('touchstart', e => {
+    isDragging3D    = true;
+    drag3DStartX    = e.touches[0].clientX;
+    drag3DBaseAngle = spinAngle;
+}, { passive: true });
+
+card3dEl.addEventListener('touchmove', e => {
+    if (!isDragging3D) return;
+    spinAngle = drag3DBaseAngle + (e.touches[0].clientX - drag3DStartX) * 0.55;
+    applyCardAngle(spinAngle);
+    e.preventDefault();
+}, { passive: false });
+
+card3dEl.addEventListener('touchend', () => { isDragging3D = false; });
+
 // ── Modal ──
 
 let currentModalIndex = -1;
@@ -293,12 +366,30 @@ function openModal(index) {
     modalTitle.textContent    = work.title;
     modalDesc.textContent     = work.desc;
 
-    if (work.image) {
-        modalImage.src     = `images/${work.image}`;
-        modalImage.alt     = work.title;
+    stop3DSpin();
+    isDragging3D = false;
+
+    if (work.image && work.imageBack) {
+        // 3D double-sided
+        document.getElementById('modal-image-front').src = `images/${work.image}`;
+        document.getElementById('modal-image-front').alt = work.title;
+        document.getElementById('modal-image-back').src  = `images/${work.imageBack}`;
+        document.getElementById('modal-image-back').alt  = work.title + ' back';
+        modalImageWrap.classList.add('has-back');
+        modalImageWrap.hidden = false;
+        modalPanel.classList.add('has-image');
+        spinAngle = 0;
+        applyCardAngle(0);
+        start3DSpin();
+    } else if (work.image) {
+        // Flat single-sided
+        modalImage.src = `images/${work.image}`;
+        modalImage.alt = work.title;
+        modalImageWrap.classList.remove('has-back');
         modalImageWrap.hidden = false;
         modalPanel.classList.add('has-image');
     } else {
+        modalImageWrap.classList.remove('has-back');
         modalImageWrap.hidden = true;
         modalPanel.classList.remove('has-image');
     }
@@ -315,6 +406,8 @@ function openModal(index) {
 }
 
 function closeModal() {
+    stop3DSpin();
+    isDragging3D = false;
     modal.classList.remove('is-open');
     modal.classList.add('is-closing');
     setTimeout(() => {
