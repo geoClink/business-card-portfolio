@@ -528,6 +528,7 @@
             <a href="#s-about">About</a>
             <a href="#s-contact">Contact</a>
             <a href="#s-process">How it works</a>
+            <a href="#s-reviews">Reviews</a>
             <a href="#s-work">Work</a>
         </nav>
         <div class="sidebar-bottom">
@@ -610,6 +611,50 @@
                 </div>
             </section>
 
+            <!-- Reviews -->
+            <section class="admin-section" id="s-reviews">
+                <h2>Reviews</h2>
+                <p class="section-desc">Up to three client reviews shown on your site. Leave a quote blank to hide that card.</p>
+                <div class="step-grid" id="reviews-admin-grid">
+                    <div class="step-block">
+                        <span class="step-num">01</span>
+                        <label>Quote
+                            <textarea id="f-review-0-quote" rows="3"></textarea>
+                        </label>
+                        <label>Reviewer name
+                            <input type="text" id="f-review-0-name">
+                        </label>
+                        <label>Business
+                            <input type="text" id="f-review-0-business">
+                        </label>
+                    </div>
+                    <div class="step-block">
+                        <span class="step-num">02</span>
+                        <label>Quote
+                            <textarea id="f-review-1-quote" rows="3"></textarea>
+                        </label>
+                        <label>Reviewer name
+                            <input type="text" id="f-review-1-name">
+                        </label>
+                        <label>Business
+                            <input type="text" id="f-review-1-business">
+                        </label>
+                    </div>
+                    <div class="step-block">
+                        <span class="step-num">03</span>
+                        <label>Quote
+                            <textarea id="f-review-2-quote" rows="3"></textarea>
+                        </label>
+                        <label>Reviewer name
+                            <input type="text" id="f-review-2-name">
+                        </label>
+                        <label>Business
+                            <input type="text" id="f-review-2-business">
+                        </label>
+                    </div>
+                </div>
+            </section>
+
             <!-- Work -->
             <section class="admin-section" id="s-work">
                 <h2>Work</h2>
@@ -641,6 +686,12 @@
         process_3_title:    'Files delivered',
         process_3_desc:     'High-res, print-ready files straight to your inbox, ready to hand off to any printer. Social sizes included if you need them.',
     };
+
+    const DEFAULT_REVIEWS = [
+        { name: 'Sarah T.',  business: 'Bloom Floral Co.',  quote: "Emmalee nailed exactly what I had in my head on the first try. My business cards are the best marketing I've ever done." },
+        { name: 'Marcus R.', business: 'Lakeside Roofing',  quote: "Turned my boring idea into something I'm actually proud to hand out. Fast, easy, and the file was perfect for printing." },
+        { name: 'Jenna K.',  business: 'The Honey Table',   quote: "I got so many compliments on my flyer at the farmers market. Would hire again without a second thought." },
+    ];
 
     const DEFAULT_WORK_ITEMS = [
         { title: 'Minimalist Luxe',   desc: 'A sleek, minimal business card with gold accent type and matte black stock — built for professionals who let the design do the talking.', category: 'Business Card' },
@@ -694,6 +745,17 @@
         document.getElementById('f-p2-desc').value       = content.process_2_desc;
         document.getElementById('f-p3-title').value      = content.process_3_title;
         document.getElementById('f-p3-desc').value       = content.process_3_desc;
+
+        // Reviews
+        const reviews = JSON.parse(localStorage.getItem('reviews') || 'null') || DEFAULT_REVIEWS;
+        reviews.forEach((review, i) => {
+            const q = document.getElementById('f-review-' + i + '-quote');
+            const n = document.getElementById('f-review-' + i + '-name');
+            const b = document.getElementById('f-review-' + i + '-business');
+            if (q) q.value = review.quote;
+            if (n) n.value = review.name;
+            if (b) b.value = review.business;
+        });
 
         // Build work cards
         const grid = document.getElementById('work-grid');
@@ -750,8 +812,15 @@
             desc:  (document.getElementById('f-work-' + i + '-desc')  || {}).value || item.desc,
         }));
 
+        const reviews = DEFAULT_REVIEWS.map((_, i) => ({
+            quote:    (document.getElementById('f-review-' + i + '-quote')    || {}).value || '',
+            name:     (document.getElementById('f-review-' + i + '-name')     || {}).value || '',
+            business: (document.getElementById('f-review-' + i + '-business') || {}).value || '',
+        }));
+
         localStorage.setItem('site_content', JSON.stringify(content));
         localStorage.setItem('work_items',   JSON.stringify(work));
+        localStorage.setItem('reviews',      JSON.stringify(reviews));
 
         const toast = document.getElementById('toast');
         toast.classList.add('show');

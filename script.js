@@ -23,6 +23,12 @@ const DEFAULT_WORK_ITEMS = [
     { title: 'Bold & Warm',       desc: 'High-contrast warm tones with a chunky serif wordmark. Made for food, lifestyle, and hospitality brands.',                            category: 'Business Card' },
 ];
 
+const DEFAULT_REVIEWS = [
+    { name: 'Sarah T.', business: 'Bloom Floral Co.', quote: "Emmalee nailed exactly what I had in my head on the first try. My business cards are the best marketing I've ever done." },
+    { name: 'Marcus R.', business: 'Lakeside Roofing', quote: "Turned my boring idea into something I'm actually proud to hand out. Fast, easy, and the file was perfect for printing." },
+    { name: 'Jenna K.', business: 'The Honey Table', quote: "I got so many compliments on my flyer at the farmers market. Would hire again without a second thought." },
+];
+
 // ── Load & apply editable content from localStorage ──
 
 function loadContent() {
@@ -48,6 +54,20 @@ function loadContent() {
         const descEl  = document.getElementById('process-' + n + '-desc');
         if (titleEl) titleEl.textContent = content['process_' + n + '_title'];
         if (descEl)  descEl.textContent  = content['process_' + n + '_desc'];
+    });
+
+    // Reviews
+    const reviews = JSON.parse(localStorage.getItem('reviews') || 'null') || DEFAULT_REVIEWS;
+    reviews.forEach((review, i) => {
+        const card       = document.getElementById('review-card-' + i);
+        const quoteEl    = document.getElementById('review-' + i + '-quote');
+        const nameEl     = document.getElementById('review-' + i + '-name');
+        const businessEl = document.getElementById('review-' + i + '-business');
+        if (!card) return;
+        if (!review.quote.trim()) { card.hidden = true; return; }
+        if (quoteEl)    quoteEl.textContent    = review.quote;
+        if (nameEl)     nameEl.textContent     = review.name;
+        if (businessEl) businessEl.textContent = review.business;
     });
 
     // Work items — populate card titles and wire click handlers
