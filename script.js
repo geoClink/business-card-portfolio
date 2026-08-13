@@ -15,13 +15,15 @@ const DEFAULT_CONTENT = {
 };
 
 const DEFAULT_WORK_ITEMS = [
-    { title: 'Minimalist Luxe',   desc: 'A sleek, minimal business card with gold accent type and matte black stock — built for professionals who let the design do the talking.', category: 'Business Card' },
-    { title: 'Summer Music Fest', desc: 'Vibrant, high-energy event flyer built for print and social — designed to stop the scroll and sell tickets.',                           category: 'Flyer'         },
-    { title: 'Grand Opening',     desc: 'Bold promotional flyer with large type and high-contrast color blocking. Built to bring foot traffic in the door.',                     category: 'Flyer'         },
-    { title: 'Eco Botanicals',    desc: 'Organic typography and earthy tones designed for a sustainable plant boutique. Printed on recycled kraft stock.',                      category: 'Business Card' },
-    { title: 'Community Cookout', desc: 'Friendly, community-focused event flyer with a clean layout that holds up in print and online.',                                      category: 'Flyer'         },
-    { title: 'Bold & Warm',       desc: 'High-contrast warm tones with a chunky serif wordmark. Made for food, lifestyle, and hospitality brands.',                            category: 'Business Card' },
+    { title: 'Minimalist Luxe',   desc: 'A sleek, minimal business card with gold accent type and matte black stock — built for professionals who let the design do the talking.', category: 'Business Card', image: '' },
+    { title: 'Summer Music Fest', desc: 'Vibrant, high-energy event flyer built for print and social — designed to stop the scroll and sell tickets.',                           category: 'Flyer',         image: '' },
+    { title: 'Grand Opening',     desc: 'Bold promotional flyer with large type and high-contrast color blocking. Built to bring foot traffic in the door.',                     category: 'Flyer',         image: '' },
+    { title: 'Eco Botanicals',    desc: 'Organic typography and earthy tones designed for a sustainable plant boutique. Printed on recycled kraft stock.',                      category: 'Business Card', image: '' },
+    { title: 'Community Cookout', desc: 'Friendly, community-focused event flyer with a clean layout that holds up in print and online.',                                      category: 'Flyer',         image: '' },
+    { title: 'Bold & Warm',       desc: 'High-contrast warm tones with a chunky serif wordmark. Made for food, lifestyle, and hospitality brands.',                            category: 'Business Card', image: '' },
 ];
+
+const workItems = JSON.parse(localStorage.getItem('work_items') || 'null') || DEFAULT_WORK_ITEMS;
 
 const DEFAULT_REVIEWS = [
     { name: 'Sarah T.', business: 'Bloom Floral Co.', quote: "Emmalee nailed exactly what I had in my head on the first try. My business cards are the best marketing I've ever done." },
@@ -32,9 +34,8 @@ const DEFAULT_REVIEWS = [
 // ── Load & apply editable content from localStorage ──
 
 function loadContent() {
-    const saved    = JSON.parse(localStorage.getItem('site_content') || 'null');
-    const content  = Object.assign({}, DEFAULT_CONTENT, saved);
-    const workItems = JSON.parse(localStorage.getItem('work_items') || 'null') || DEFAULT_WORK_ITEMS;
+    const saved   = JSON.parse(localStorage.getItem('site_content') || 'null');
+    const content = Object.assign({}, DEFAULT_CONTENT, saved);
 
     // About
     const p1 = document.getElementById('about-p1');
@@ -43,10 +44,12 @@ function loadContent() {
     if (p2) p2.textContent = content.about_p2;
 
     // Contact
-    const emailEl  = document.getElementById('contact-email');
-    const handleEl = document.getElementById('contact-handle');
-    if (emailEl)  { emailEl.textContent  = content.contact_email;  emailEl.href  = 'mailto:' + content.contact_email; }
-    if (handleEl) { handleEl.textContent = content.contact_handle; handleEl.href = content.contact_handle_url; }
+    const emailEl    = document.getElementById('contact-email');
+    const handleEl   = document.getElementById('contact-handle');
+    const heroEmailEl = document.querySelector('.hc-email');
+    if (emailEl)     { emailEl.textContent  = content.contact_email;  emailEl.href  = 'mailto:' + content.contact_email; }
+    if (handleEl)    { handleEl.textContent = content.contact_handle; handleEl.href = content.contact_handle_url; }
+    if (heroEmailEl) { heroEmailEl.textContent = content.contact_email; }
 
     // Process steps
     [1, 2, 3].forEach(n => {
@@ -70,14 +73,23 @@ function loadContent() {
         if (businessEl) businessEl.textContent = review.business;
     });
 
-    // Work items — populate card titles and wire click handlers
+    // Work items — populate card titles, images, and wire click handlers
     document.querySelectorAll('.bento-item[data-index]').forEach(item => {
         const idx  = parseInt(item.getAttribute('data-index'), 10);
         const work = workItems[idx];
         if (!work) return;
+
         const titleEl = item.querySelector('.card-title');
         if (titleEl) titleEl.textContent = work.title;
-        item.addEventListener('click', () => openModal(work.title, work.desc, work.category));
+
+        if (work.image) {
+            item.style.backgroundImage    = `url(images/${work.image})`;
+            item.style.backgroundSize     = 'cover';
+            item.style.backgroundPosition = 'center';
+            item.classList.add('has-image');
+        }
+
+        item.addEventListener('click', () => openModal(idx));
     });
 }
 
@@ -182,10 +194,43 @@ filterButtons.forEach(btn => {
 
 // ── Modal ──
 
-function openModal(title, desc, category) {
-    modalCategory.textContent = category;
-    modalTitle.textContent    = title;
-    modalDesc.textContent     = desc;
+let currentModalIndex = -1;
+
+const modalImageWrap = document.getElementById('modal-image-wrap');
+const modalImage     = document.getElementById('modal-image');
+const modalPanel     = document.querySelector('.modal-panel');
+const modalPrev      = document.getElementById('modal-prev');
+const modalNext      = document.getElementById('modal-next');
+
+function getVisibleIndices() {
+    return Array.from(document.querySelectorAll('.bento-item[data-index]'))
+        .filter(el => el.style.display !== 'none')
+        .map(el => parseInt(el.getAttribute('data-index'), 10));
+}
+
+function openModal(index) {
+    currentModalIndex = index;
+    const work = workItems[index];
+
+    modalCategory.textContent = work.category;
+    modalTitle.textContent    = work.title;
+    modalDesc.textContent     = work.desc;
+
+    if (work.image) {
+        modalImage.src     = `images/${work.image}`;
+        modalImage.alt     = work.title;
+        modalImageWrap.hidden = false;
+        modalPanel.classList.add('has-image');
+    } else {
+        modalImageWrap.hidden = true;
+        modalPanel.classList.remove('has-image');
+    }
+
+    const visible = getVisibleIndices();
+    const pos = visible.indexOf(index);
+    modalPrev.disabled = pos <= 0;
+    modalNext.disabled = pos >= visible.length - 1;
+
     modal.classList.remove('is-closing');
     modal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
@@ -201,12 +246,27 @@ function closeModal() {
     }, 280);
 }
 
+modalPrev.addEventListener('click', () => {
+    const visible = getVisibleIndices();
+    const pos = visible.indexOf(currentModalIndex);
+    if (pos > 0) openModal(visible[pos - 1]);
+});
+
+modalNext.addEventListener('click', () => {
+    const visible = getVisibleIndices();
+    const pos = visible.indexOf(currentModalIndex);
+    if (pos < visible.length - 1) openModal(visible[pos + 1]);
+});
+
 modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
 });
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    if (!modal.classList.contains('is-open')) return;
+    if (e.key === 'Escape')     closeModal();
+    if (e.key === 'ArrowLeft')  modalPrev.click();
+    if (e.key === 'ArrowRight') modalNext.click();
 });
 
 // ── Process card tap-to-flip ──

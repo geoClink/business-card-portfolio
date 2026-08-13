@@ -333,8 +333,8 @@
 
             <div class="contact-links">
                 <a id="contact-email" href="mailto:hello@yourname.com">hello@yourname.com</a>
-                <span class="contact-dot" aria-hidden="true">·</span>
-                <a id="contact-handle" href="#" target="_blank" rel="noopener">@yourhandle</a>
+                <span class="contact-dot" aria-hidden="true" hidden>·</span>
+                <a id="contact-handle" href="#" target="_blank" rel="noopener" hidden>@yourhandle</a>
             </div>
         </div>
     </section>
@@ -354,10 +354,19 @@
     <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-panel">
             <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
-            <p id="modal-category" class="eyebrow"></p>
-            <h2 id="modal-title" class="modal-title"></h2>
-            <p id="modal-desc" class="modal-desc"></p>
-            <a href="#contact" class="modal-cta" onclick="closeModal()">Inquire about this style →</a>
+            <div id="modal-image-wrap" class="modal-image-wrap" hidden>
+                <img id="modal-image" class="modal-image" src="" alt="">
+            </div>
+            <div class="modal-body">
+                <p id="modal-category" class="eyebrow"></p>
+                <h2 id="modal-title" class="modal-title"></h2>
+                <p id="modal-desc" class="modal-desc"></p>
+                <a href="#contact" class="modal-cta" onclick="closeModal()">Inquire about this style →</a>
+            </div>
+            <div class="modal-nav">
+                <button class="modal-nav-btn" id="modal-prev" aria-label="Previous work">← Prev</button>
+                <button class="modal-nav-btn" id="modal-next" aria-label="Next work">Next →</button>
+            </div>
         </div>
     </div>
 
