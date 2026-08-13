@@ -103,7 +103,7 @@ body {
 
 @keyframes twinkle {
     0%, 100% { opacity: 0;    transform: scale(0.4) rotate(0deg);  }
-    45%, 55% { opacity: 0.7;  transform: scale(1)   rotate(18deg); }
+    30%, 70% { opacity: 1;    transform: scale(1)   rotate(18deg); }
 }
 
 @keyframes modalIn {
@@ -243,12 +243,12 @@ body {
 
 .sparkle::before { content: '✦'; }
 
-.sparkle.s1 { top: 11%; right: 15%;  font-size: 0.6rem;   --del: 0s;    --dur: 3.6s; }
-.sparkle.s2 { top: 36%; right: 7%;   font-size: 0.78rem;  --del: 1.4s;  --dur: 4.3s; }
-.sparkle.s3 { top: 63%; right: 21%;  font-size: 0.44rem;  --del: 2.7s;  --dur: 3.9s; }
-.sparkle.s4 { top: 21%; right: 31%;  font-size: 0.62rem;  --del: 0.8s;  --dur: 5.1s; }
-.sparkle.s5 { top: 76%; right: 10%;  font-size: 0.38rem;  --del: 2s;    --dur: 4.6s; }
-.sparkle.s6 { top: 47%; right: 27%;  font-size: 0.52rem;  --del: 3.3s;  --dur: 3.3s; }
+.sparkle.s1 { top: 11%; right: 15%;  font-size: 1.1rem;   --del: 0s;    --dur: 3.6s; }
+.sparkle.s2 { top: 36%; right: 7%;   font-size: 1.4rem;   --del: 1.4s;  --dur: 4.3s; }
+.sparkle.s3 { top: 63%; right: 21%;  font-size: 0.85rem;  --del: 2.7s;  --dur: 3.9s; }
+.sparkle.s4 { top: 21%; right: 31%;  font-size: 1.1rem;   --del: 0.8s;  --dur: 5.1s; }
+.sparkle.s5 { top: 76%; right: 10%;  font-size: 0.75rem;  --del: 2s;    --dur: 4.6s; }
+.sparkle.s6 { top: 47%; right: 27%;  font-size: 0.95rem;  --del: 3.3s;  --dur: 3.3s; }
 
 /* ── Scroll reveal ── */
 
@@ -409,9 +409,49 @@ body {
 
 .about-inner {
     display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 40px;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
     align-items: start;
+    margin-top: 28px;
+}
+
+.about-photo {
+    width: 200px;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px dashed var(--border);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+
+.about-img[src=""] {
+    display: none;
+}
+
+.about-photo-label {
+    position: absolute;
+    font-size: 0.72rem;
+    font-family: var(--font-body);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+.about-photo:has(.about-img:not([src=""])) .about-photo-label {
+    display: none;
 }
 
 .about-text {
@@ -623,7 +663,12 @@ footer {
 
     .about-inner {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 24px;
+    }
+
+    .about-photo {
+        width: 140px;
+        aspect-ratio: 3 / 4;
     }
 
     .work-header {
