@@ -3,100 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Portfolio | Print & Digital Design</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Emmalee Alexander · Print Design</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="hero">
+    <nav class="site-nav">
+        <div class="container nav-inner">
+            <a class="nav-name" href="#">Emmalee Alexander</a>
+            <ul class="nav-links">
+                <li><a href="#work">Work</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="intro">
         <div class="container">
-            <span class="badge">Portfolio & Design Studio</span>
-            <h1>Crafting Memorable Brand Collateral</h1>
-            <p>Specializing in eye-catching business cards, impactful flyers, and high-converting marketing materials built with HTML, CSS, and modern web standards.</p>
-            <a href="#portfolio" class="btn">View Works</a>
+            <p class="intro-label">Print design &nbsp;·&nbsp; Business cards &amp; flyers</p>
+            <h1 class="intro-headline">Made to be<br><em>held onto.</em></h1>
+            <a href="#work" class="intro-scroll" aria-label="See the work">↓</a>
         </div>
     </header>
 
-    <main class="container" id="portfolio">
-        <div class="section-title">
-            <h2>Featured Projects</h2>
-            <p>Explore my recent work in print and digital layouts.</p>
-        </div>
-
-        <div class="filter-container">
-            <button class="filter-btn active" data-filter="all">All Work</button>
-            <button class="filter-btn" data-filter="business-cards">Business Cards</button>
-            <button class="filter-btn" data-filter="flyers">Flyers</button>
-        </div>
-
-        <div class="gallery-grid">
-            <div class="gallery-item" data-category="business-cards">
-                <div class="card-inner" style="background: linear-gradient(135deg, #1f2937, #111827);">
-                    <div class="card-content">
-                        <h3>Minimalist Luxe</h3>
-                        <span class="tag">Business Card</span>
-                    </div>
-                </div>
-                <div class="item-overlay">
-                    <button class="view-btn" onclick="openModal('Minimalist Luxe', 'A sleek, modern business card design featuring gold foil accents and matte black cardstock.', 'Business Card')">View Details</button>
+    <section id="work" class="section-work">
+        <div class="container">
+            <div class="work-header">
+                <span class="eyebrow">Work</span>
+                <div class="filter-row">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="business-cards">Business Cards</button>
+                    <button class="filter-btn" data-filter="flyers">Flyers</button>
                 </div>
             </div>
 
-            <div class="gallery-item" data-category="flyers">
-                <div class="card-inner" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">
-                    <div class="card-content">
-                        <h3>Summer Music Festival</h3>
-                        <span class="tag">Flyer Design</span>
+            <div class="bento-grid">
+                <div class="bento-item bento-item--tall" data-category="business-cards"
+                    style="--card-bg: linear-gradient(160deg, #CBAFB7, #A89098);"
+                    onclick="openModal('Minimalist Luxe', 'A sleek, minimal business card with gold accent type and matte black stock — built for professionals who let the design do the talking.', 'Business Card')">
+                    <div class="card-body">
+                        <p class="card-label">Business Card</p>
+                        <h3 class="card-title">Minimalist Luxe</h3>
                     </div>
                 </div>
-                <div class="item-overlay">
-                    <button class="view-btn" onclick="openModal('Summer Music Festival', 'Vibrant, high-energy flyer layout designed for print and social media promotion.', 'Flyer')">View Details</button>
-                </div>
-            </div>
 
-            <div class="gallery-item" data-category="business-cards">
-                <div class="card-inner" style="background: linear-gradient(135deg, #059669, #10b981);">
-                    <div class="card-content">
-                        <h3>Eco-Friendly Botanicals</h3>
-                        <span class="tag">Business Card</span>
+                <div class="bento-item" data-category="flyers"
+                    style="--card-bg: linear-gradient(160deg, #9AB8AC, #7E9E94);"
+                    onclick="openModal('Summer Music Fest', 'Vibrant, high-energy event flyer built for print and social — designed to stop the scroll and sell tickets.', 'Flyer')">
+                    <div class="card-body">
+                        <p class="card-label">Flyer</p>
+                        <h3 class="card-title">Summer Music Fest</h3>
                     </div>
                 </div>
-                <div class="item-overlay">
-                    <button class="view-btn" onclick="openModal('Eco-Friendly Botanicals', 'Organic typography and earthy tones tailored for a sustainable plant boutique.', 'Business Card')">View Details</button>
-                </div>
-            </div>
 
-            <div class="gallery-item" data-category="flyers">
-                <div class="card-inner" style="background: linear-gradient(135deg, #db2777, #f43f5e);">
-                    <div class="card-content">
-                        <h3>Grand Opening Sale</h3>
-                        <span class="tag">Flyer Design</span>
+                <div class="bento-item" data-category="flyers"
+                    style="--card-bg: linear-gradient(160deg, #B4B0C8, #9A96B4);"
+                    onclick="openModal('Grand Opening', 'Bold promotional flyer with large type and high-contrast color blocking. Built to bring foot traffic in the door.', 'Flyer')">
+                    <div class="card-body">
+                        <p class="card-label">Flyer</p>
+                        <h3 class="card-title">Grand Opening</h3>
                     </div>
                 </div>
-                <div class="item-overlay">
-                    <button class="view-btn" onclick="openModal('Grand Opening Sale', 'A bold, attention-grabbing promotional flyer built to maximize foot traffic and conversions.', 'Flyer')">View Details</button>
+
+                <div class="bento-item bento-item--wide" data-category="business-cards"
+                    style="--card-bg: linear-gradient(160deg, #C8B898, #B4A282);"
+                    onclick="openModal('Eco Botanicals', 'Organic typography and earthy tones designed for a sustainable plant boutique. Printed on recycled kraft stock.', 'Business Card')">
+                    <div class="card-body">
+                        <p class="card-label">Business Card</p>
+                        <h3 class="card-title">Eco Botanicals</h3>
+                    </div>
+                </div>
+
+                <div class="bento-item bento-item--wide" data-category="flyers"
+                    style="--card-bg: linear-gradient(160deg, #C0ACAC, #A89494);"
+                    onclick="openModal('Community Cookout', 'Friendly, community-focused event flyer with a clean layout that holds up in print and online.', 'Flyer')">
+                    <div class="card-body">
+                        <p class="card-label">Flyer</p>
+                        <h3 class="card-title">Community Cookout</h3>
+                    </div>
+                </div>
+
+                <div class="bento-item" data-category="business-cards"
+                    style="--card-bg: linear-gradient(160deg, #A0B8C4, #8CA4B0);"
+                    onclick="openModal('Bold & Warm', 'High-contrast warm tones with a chunky serif wordmark. Made for food, lifestyle, and hospitality brands.', 'Business Card')">
+                    <div class="card-body">
+                        <p class="card-label">Business Card</p>
+                        <h3 class="card-title">Bold &amp; Warm</h3>
+                    </div>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <div id="projectModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <span id="modalCategory" class="badge"></span>
-            <h2 id="modalTitle">Project Title</h2>
-            <p id="modalDesc">Project description goes here.</p>
+    <section id="about" class="section-about">
+        <div class="container about-inner">
+            <span class="eyebrow">About</span>
+            <div class="about-text">
+                <p>I'm Emmalee, a 19-year-old designer from Frankfort, MI. I started making business cards and flyers because I love how good design can make something feel real — like a brand that actually means something.</p>
+                <p>I'm still early in my journey, but I take every project seriously. I work from scratch, I listen, and I don't stop until it feels right.</p>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section id="contact" class="section-contact">
+        <div class="container">
+            <span class="eyebrow">Contact</span>
+            <h2 class="contact-heading">Let's make something.</h2>
+            <div class="contact-links">
+                <a href="mailto:hello@yourname.com">hello@yourname.com</a>
+                <span class="contact-dot" aria-hidden="true">·</span>
+                <a href="#" target="_blank" rel="noopener">@yourhandle</a>
+            </div>
+        </div>
+    </section>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Creative Portfolio. All rights reserved.</p>
+        <div class="container footer-inner">
+            <span class="footer-name">Emmalee Alexander</span>
+            <span class="footer-copy">&copy; 2026</span>
         </div>
     </footer>
+
+    <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-panel">
+            <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+            <p id="modal-category" class="eyebrow"></p>
+            <h2 id="modal-title" class="modal-title"></h2>
+            <p id="modal-desc" class="modal-desc"></p>
+            <a href="#contact" class="modal-cta" onclick="closeModal()">Inquire about this style →</a>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

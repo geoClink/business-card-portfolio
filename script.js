@@ -1,41 +1,47 @@
+// ── Gallery filter ──
+
 const filterButtons = document.querySelectorAll('.filter-btn');
-const galleryItems = document.querySelectorAll('.gallery-item');
+const bentoItems = document.querySelectorAll('.bento-item');
 
-filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
-        const filterValue = button.getAttribute('data-filter');
+        const filter = btn.getAttribute('data-filter');
 
-        galleryItems.forEach(item => {
-            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
+        bentoItems.forEach(item => {
+            const match = filter === 'all' || item.getAttribute('data-category') === filter;
+            item.style.display = match ? '' : 'none';
         });
     });
 });
 
-const modal = document.getElementById('projectModal');
-const modalTitle = document.getElementById('modalTitle');
-const modalDesc = document.getElementById('modalDesc');
-const modalCategory = document.getElementById('modalCategory');
+// ── Modal ──
+
+const modal = document.getElementById('modal');
+const modalCategory = document.getElementById('modal-category');
+const modalTitle = document.getElementById('modal-title');
+const modalDesc = document.getElementById('modal-desc');
 
 function openModal(title, desc, category) {
+    modalCategory.textContent = category;
     modalTitle.textContent = title;
     modalDesc.textContent = desc;
-    modalCategory.textContent = category;
     modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-close').focus();
 }
 
 function closeModal() {
     modal.style.display = 'none';
+    document.body.style.overflow = '';
 }
 
-window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        closeModal();
-    }
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.style.display === 'flex') closeModal();
 });
