@@ -110,6 +110,7 @@ if (heroCard && window.matchMedia('(pointer: fine)').matches) {
 
 const filterButtons = document.querySelectorAll('.filter-btn');
 const bentoItems    = document.querySelectorAll('.bento-item');
+const bentoGrid     = document.querySelector('.bento-grid');
 const modal         = document.getElementById('modal');
 const modalCategory = document.getElementById('modal-category');
 const modalTitle    = document.getElementById('modal-title');
@@ -152,6 +153,8 @@ filterButtons.forEach(btn => {
         btn.classList.add('active');
 
         const filter = btn.getAttribute('data-filter');
+
+        bentoGrid.classList.toggle('is-filtered', filter !== 'all');
 
         bentoItems.forEach(item => {
             const match = filter === 'all' || item.getAttribute('data-category') === filter;
