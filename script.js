@@ -185,3 +185,11 @@ modal.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
 });
+
+// ── Process card tap-to-flip ──
+
+document.querySelectorAll('.process-card-scene').forEach(scene => {
+    scene.addEventListener('click', () => {
+        scene.classList.toggle('is-flipped');
+    });
+});

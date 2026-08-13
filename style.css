@@ -214,6 +214,18 @@ body {
     50%       { translate: 0 14px; }
 }
 
+@keyframes heroSpin {
+    from { transform: perspective(900px) rotate(-10deg) rotateY(0deg); }
+    to   { transform: perspective(900px) rotate(-10deg) rotateY(360deg); }
+}
+
+@keyframes processWiggle {
+    0%, 100% { rotate: var(--pc-tilt); }
+    20%      { rotate: calc(var(--pc-tilt) + 6deg); }
+    50%      { rotate: calc(var(--pc-tilt) - 4deg); }
+    75%      { rotate: calc(var(--pc-tilt) + 2deg); }
+}
+
 .intro-card-wrap {
     position: relative;
     z-index: 1;
@@ -240,8 +252,9 @@ body {
     justify-content: space-between;
     padding: 20px 24px 18px;
     transform: perspective(900px) rotate(-10deg);
-    animation: heroFloat 5.5s ease-in-out infinite;
+    animation: heroFloat 5.5s ease-in-out 0.75s infinite, heroSpin 0.9s ease-in-out both;
     transition: transform 0.15s ease-out;
+    backface-visibility: hidden;
     cursor: default;
     user-select: none;
 }
@@ -814,43 +827,117 @@ footer {
     list-style: none;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 48px 40px;
+    gap: 20px;
     margin-top: 32px;
 }
 
 .process-step {
+    min-width: 0;
+}
+
+.process-card-scene {
+    perspective: 1100px;
+    aspect-ratio: 1.74;
+    cursor: pointer;
+    rotate: var(--pc-tilt, 0deg);
+}
+
+.process-step:nth-child(1) .process-card-scene { --pc-tilt: -3deg; }
+.process-step:nth-child(2) .process-card-scene { --pc-tilt:  2.5deg; }
+.process-step:nth-child(3) .process-card-scene { --pc-tilt: -1.5deg; }
+
+.process-card-scene:hover {
+    animation: processWiggle 0.4s ease forwards;
+}
+
+.process-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.process-card-scene:hover .process-card,
+.process-card-scene.is-flipped .process-card {
+    transform: rotateY(180deg);
+}
+
+.process-card-front,
+.process-card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+}
+
+.process-card-front {
+    background: var(--bg);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    padding: 18px 22px 16px;
+}
+
+.process-card-back {
+    background: var(--bg-card);
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    padding: 20px 22px;
+}
+
+.pc-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent);
+}
+
+.pc-flip-hint {
+    position: absolute;
+    bottom: 10px;
+    right: 14px;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    opacity: 0.45;
+    font-family: var(--font-body);
+    pointer-events: none;
 }
 
 .process-num {
     font-family: var(--font-display);
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 300;
+    font-style: italic;
     font-optical-sizing: auto;
-    color: var(--border);
+    color: var(--accent);
+    opacity: 0.4;
     line-height: 1;
-    margin-bottom: 16px;
-}
-
-.process-body {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    display: block;
 }
 
 .process-title {
     font-family: var(--font-display);
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     font-weight: 400;
+    font-style: italic;
     color: var(--ink);
     line-height: 1.25;
 }
 
 .process-desc {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     color: var(--ink-mid);
-    line-height: 1.72;
+    line-height: 1.65;
 }
 
 /* ── Responsive ── */
@@ -906,7 +993,11 @@ footer {
 
     .process-steps {
         grid-template-columns: 1fr;
-        gap: 32px;
+        gap: 16px;
+    }
+
+    .process-card-scene {
+        aspect-ratio: 2.2;
     }
 
     .form-row {
@@ -1004,6 +1095,14 @@ footer {
         animation: none !important;
         transform: perspective(900px) rotate(-10deg) !important;
         transition: none !important;
+    }
+
+    .process-card {
+        transition: none !important;
+    }
+
+    .process-card-scene:hover {
+        animation: none !important;
     }
 
     .bento-item {
