@@ -439,35 +439,59 @@
                 width: 100%;
                 height: auto;
                 position: static;
-                flex-direction: row;
-                flex-wrap: wrap;
-                align-items: center;
-                padding: 12px 16px;
-                gap: 8px;
-            }
-
-            .sidebar-top { border-bottom: none; padding: 0; }
-            .sidebar-brand { font-size: 0.9rem; }
-            .sidebar-sub { display: none; }
-
-            .sidebar nav {
-                flex-direction: row;
+                flex-direction: column;
                 padding: 0;
-                gap: 2px;
-                flex-wrap: wrap;
+                gap: 0;
             }
 
-            .sidebar nav a { padding: 6px 10px; font-size: 0.8rem; }
+            /* Row 1: brand + utility actions */
+            .sidebar-top {
+                border-bottom: none;
+                padding: 10px 16px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .sidebar-brand { font-size: 0.875rem; }
+            .sidebar-sub { display: none; }
 
             .sidebar-bottom {
                 flex-direction: row;
                 border-top: none;
                 padding: 0;
-                margin-left: auto;
+                gap: 2px;
+                order: 0;
             }
 
             .sidebar-bottom a,
-            .sidebar-bottom button { padding: 6px 10px; font-size: 0.8rem; }
+            .sidebar-bottom button {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+
+            /* Row 2: nav links full-width */
+            .sidebar nav {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                padding: 0 8px 8px;
+                gap: 2px;
+                border-top: 1px solid rgba(255,255,255,0.07);
+                width: 100%;
+                box-sizing: border-box;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .sidebar nav a {
+                padding: 7px 10px;
+                font-size: 0.8rem;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
 
             .admin-header { padding: 12px 20px; }
             .admin-content { padding: 20px; }

@@ -718,6 +718,17 @@ footer {
     color: var(--ink-muted);
 }
 
+.footer-linkedin {
+    font-size: 0.8rem;
+    color: var(--ink-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-linkedin:hover {
+    color: var(--ink);
+}
+
 .footer-admin {
     font-size: 0.75rem;
     color: var(--ink-muted);
