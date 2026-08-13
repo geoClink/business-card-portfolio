@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin · Emmalee Alexander</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <style>
+        /* ── Tokens ── */
+        :root {
+            --bg:       #FAF7F4;
+            --surface:  #F0E8EC;
+            --ink:      #1C1618;
+            --ink-mid:  #6E5C64;
+            --ink-muted:#A08090;
+            --accent:   #BC6B82;
+            --border:   #E4D8DC;
+            --sidebar:  #1C1618;
+            --sidebar-text: rgba(242, 236, 232, 0.72);
+            --sidebar-hover: rgba(255,255,255,0.08);
+            --sidebar-active: rgba(188, 107, 130, 0.22);
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body:    'DM Sans', system-ui, sans-serif;
+            --radius: 10px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--ink);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5;
+        }
+
+        /* ── Login ── */
+
+        #login-screen {
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: var(--bg);
+        }
+
+        .login-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px 40px 40px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.07);
+        }
+
+        .login-site {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            color: var(--accent);
+            margin-bottom: 6px;
+            font-style: italic;
+        }
+
+        .login-card h1 {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 28px;
+        }
+
+        .login-card label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--ink-mid);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .login-card input[type="password"] {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--ink);
+            background: var(--bg);
+            outline: none;
+            transition: border-color 0.2s;
+            margin-bottom: 14px;
+        }
+
+        .login-card input[type="password"]:focus {
+            border-color: var(--accent);
+        }
+
+        .login-submit {
+            width: 100%;
+            padding: 11px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .login-submit:hover { opacity: 0.88; }
+
+        #login-err {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #C0444A;
+            min-height: 20px;
+        }
+
+        /* ── Admin layout ── */
+
+        #admin-panel {
+            display: flex;
+            min-height: 100dvh;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 240px;
+            min-width: 240px;
+            background: var(--sidebar);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100dvh;
+            overflow-y: auto;
+        }
+
+        .sidebar-top {
+            padding: 28px 24px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .sidebar-brand {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-style: italic;
+            color: rgba(242, 236, 232, 0.92);
+            margin-bottom: 3px;
+        }
+
+        .sidebar-sub {
+            font-size: 0.72rem;
+            color: var(--sidebar-text);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .sidebar nav {
+            flex: 1;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sidebar nav a {
+            display: block;
+            padding: 9px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .sidebar nav a:hover {
+            background: var(--sidebar-hover);
+            color: rgba(242, 236, 232, 0.95);
+        }
+
+        .sidebar-bottom {
+            padding: 16px 12px 24px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .sidebar-bottom a,
+        .sidebar-bottom button {
+            display: block;
+            padding: 9px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-family: var(--font-body);
+            text-decoration: none;
+            color: var(--sidebar-text);
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .sidebar-bottom a:hover,
+        .sidebar-bottom button:hover {
+            background: var(--sidebar-hover);
+            color: rgba(242, 236, 232, 0.95);
+        }
+
+        /* Main */
+
+        .admin-main {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(250,247,244,0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .admin-header h1 {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .save-btn {
+            padding: 9px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .save-btn:hover { opacity: 0.88; }
+
+        /* Toast */
+
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #1C1618;
+            color: rgba(242,236,232,0.95);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(8px);
+            pointer-events: none;
+            transition: opacity 0.22s ease, transform 0.22s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sections */
+
+        .admin-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .admin-section {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-section:last-child {
+            border-bottom: none;
+        }
+
+        .admin-section h2 {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .section-desc {
+            font-size: 0.82rem;
+            color: var(--ink-muted);
+            margin-bottom: 24px;
+        }
+
+        /* Fields */
+
+        .fields {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .fields label,
+        .step-block label,
+        .work-block label {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--ink-mid);
+            letter-spacing: 0.03em;
+        }
+
+        .fields input,
+        .fields textarea,
+        .step-block input,
+        .step-block textarea,
+        .work-block input,
+        .work-block textarea {
+            padding: 10px 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.925rem;
+            color: var(--ink);
+            background: white;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.18s;
+            line-height: 1.55;
+        }
+
+        .fields input:focus,
+        .fields textarea:focus,
+        .step-block input:focus,
+        .step-block textarea:focus,
+        .work-block input:focus,
+        .work-block textarea:focus {
+            border-color: var(--accent);
+        }
+
+        /* Step grid */
+
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .step-block {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .step-num {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--border);
+            line-height: 1;
+        }
+
+        /* Work grid */
+
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .work-block {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .work-block-label {
+            font-size: 0.72rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        /* ── Responsive ── */
+
+        @media (max-width: 900px) {
+            .step-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            #admin-panel { flex-direction: column; }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                padding: 12px 16px;
+                gap: 8px;
+            }
+
+            .sidebar-top { border-bottom: none; padding: 0; }
+            .sidebar-brand { font-size: 0.9rem; }
+            .sidebar-sub { display: none; }
+
+            .sidebar nav {
+                flex-direction: row;
+                padding: 0;
+                gap: 2px;
+                flex-wrap: wrap;
+            }
+
+            .sidebar nav a { padding: 6px 10px; font-size: 0.8rem; }
+
+            .sidebar-bottom {
+                flex-direction: row;
+                border-top: none;
+                padding: 0;
+                margin-left: auto;
+            }
+
+            .sidebar-bottom a,
+            .sidebar-bottom button { padding: 6px 10px; font-size: 0.8rem; }
+
+            .admin-header { padding: 12px 20px; }
+            .admin-content { padding: 20px; }
+            .work-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Login ── -->
+<div id="login-screen">
+    <div class="login-card">
+        <p class="login-site">Emmalee Alexander</p>
+        <h1>Site Admin</h1>
+        <form id="login-form">
+            <label for="pw">Password</label>
+            <input type="password" id="pw" placeholder="Enter password" autocomplete="current-password" required>
+            <button type="submit" class="login-submit">Sign in</button>
+        </form>
+        <p id="login-err"></p>
+    </div>
+</div>
+
+<!-- ── Admin panel ── -->
+<div id="admin-panel" hidden>
+
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <p class="sidebar-brand">Emmalee Alexander</p>
+            <p class="sidebar-sub">Portfolio Admin</p>
+        </div>
+        <nav>
+            <a href="#s-about">About</a>
+            <a href="#s-contact">Contact</a>
+            <a href="#s-process">How it works</a>
+            <a href="#s-work">Work</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <a href="index.html" target="_blank" rel="noopener">View site ↗</a>
+            <button id="logout-btn">Sign out</button>
+        </div>
+    </aside>
+
+    <div class="admin-main">
+        <header class="admin-header">
+            <h1>Edit Content</h1>
+            <button class="save-btn" id="save-btn">Save changes</button>
+        </header>
+
+        <div class="admin-content">
+
+            <!-- About -->
+            <section class="admin-section" id="s-about">
+                <h2>About</h2>
+                <p class="section-desc">The two paragraphs that appear in the About section of your site.</p>
+                <div class="fields">
+                    <label>First paragraph
+                        <textarea id="f-about-p1" rows="4"></textarea>
+                    </label>
+                    <label>Second paragraph
+                        <textarea id="f-about-p2" rows="4"></textarea>
+                    </label>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section class="admin-section" id="s-contact">
+                <h2>Contact</h2>
+                <p class="section-desc">Your email and social link shown at the bottom of the page.</p>
+                <div class="fields">
+                    <label>Email address
+                        <input type="email" id="f-contact-email">
+                    </label>
+                    <label>Social handle (shown text — e.g. @emmaleealexander)
+                        <input type="text" id="f-contact-handle">
+                    </label>
+                    <label>Social link URL (e.g. https://instagram.com/emmaleealexander)
+                        <input type="text" id="f-contact-url">
+                    </label>
+                </div>
+            </section>
+
+            <!-- How it works -->
+            <section class="admin-section" id="s-process">
+                <h2>How it works</h2>
+                <p class="section-desc">The three steps shown in the Process section of your site.</p>
+                <div class="step-grid">
+                    <div class="step-block">
+                        <span class="step-num">01</span>
+                        <label>Step title
+                            <input type="text" id="f-p1-title">
+                        </label>
+                        <label>Description
+                            <textarea id="f-p1-desc" rows="3"></textarea>
+                        </label>
+                    </div>
+                    <div class="step-block">
+                        <span class="step-num">02</span>
+                        <label>Step title
+                            <input type="text" id="f-p2-title">
+                        </label>
+                        <label>Description
+                            <textarea id="f-p2-desc" rows="3"></textarea>
+                        </label>
+                    </div>
+                    <div class="step-block">
+                        <span class="step-num">03</span>
+                        <label>Step title
+                            <input type="text" id="f-p3-title">
+                        </label>
+                        <label>Description
+                            <textarea id="f-p3-desc" rows="3"></textarea>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Work -->
+            <section class="admin-section" id="s-work">
+                <h2>Work</h2>
+                <p class="section-desc">The title and description for each portfolio card. Card colors and layout are fixed.</p>
+                <div class="work-grid" id="work-grid"></div>
+            </section>
+
+        </div>
+    </div>
+</div>
+
+<div id="toast" class="toast">Changes saved!</div>
+
+<script>
+    // ── Password — change this to something only Emmalee knows ──
+    const PASSWORD = 'emmalee2026';
+
+    // ── Defaults (must match script.js) ──
+    const DEFAULT_CONTENT = {
+        about_p1:           "I'm Emmalee, a 19-year-old designer from Frankfort, MI. I started making business cards and flyers because I love how good design can make something feel real — like a brand that actually means something.",
+        about_p2:           "I'm still early in my journey, but I take every project seriously. I work from scratch, I listen, and I don't stop until it feels right.",
+        contact_email:      'hello@yourname.com',
+        contact_handle:     '@yourhandle',
+        contact_handle_url: '#',
+        process_1_title:    'Reach out',
+        process_1_desc:     "Tell me about your business, the vibe you're after, and any ideas you have. No design experience needed on your end.",
+        process_2_title:    'We design it',
+        process_2_desc:     "I'll share a few concepts and we'll refine together until it feels exactly right — back and forth until you love it.",
+        process_3_title:    'Files delivered',
+        process_3_desc:     'High-res, print-ready files straight to your inbox, ready to hand off to any printer. Social sizes included if you need them.',
+    };
+
+    const DEFAULT_WORK_ITEMS = [
+        { title: 'Minimalist Luxe',   desc: 'A sleek, minimal business card with gold accent type and matte black stock — built for professionals who let the design do the talking.', category: 'Business Card' },
+        { title: 'Summer Music Fest', desc: 'Vibrant, high-energy event flyer built for print and social — designed to stop the scroll and sell tickets.',                           category: 'Flyer'         },
+        { title: 'Grand Opening',     desc: 'Bold promotional flyer with large type and high-contrast color blocking. Built to bring foot traffic in the door.',                     category: 'Flyer'         },
+        { title: 'Eco Botanicals',    desc: 'Organic typography and earthy tones designed for a sustainable plant boutique. Printed on recycled kraft stock.',                      category: 'Business Card' },
+        { title: 'Community Cookout', desc: 'Friendly, community-focused event flyer with a clean layout that holds up in print and online.',                                      category: 'Flyer'         },
+        { title: 'Bold & Warm',       desc: 'High-contrast warm tones with a chunky serif wordmark. Made for food, lifestyle, and hospitality brands.',                            category: 'Business Card' },
+    ];
+
+    // ── Auth ──
+    const SESSION_KEY = 'ea_admin_session';
+
+    document.getElementById('login-form').addEventListener('submit', e => {
+        e.preventDefault();
+        if (document.getElementById('pw').value === PASSWORD) {
+            sessionStorage.setItem(SESSION_KEY, '1');
+            showAdmin();
+        } else {
+            document.getElementById('login-err').textContent = 'Incorrect password. Try again.';
+        }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        sessionStorage.removeItem(SESSION_KEY);
+        location.reload();
+    });
+
+    if (sessionStorage.getItem(SESSION_KEY)) showAdmin();
+
+    function showAdmin() {
+        document.getElementById('login-screen').hidden  = true;
+        document.getElementById('admin-panel').hidden   = false;
+        populateFields();
+    }
+
+    // ── Populate form from localStorage (or defaults) ──
+    function populateFields() {
+        const saved   = JSON.parse(localStorage.getItem('site_content') || 'null');
+        const content = Object.assign({}, DEFAULT_CONTENT, saved);
+        const work    = JSON.parse(localStorage.getItem('work_items') || 'null') || DEFAULT_WORK_ITEMS;
+
+        document.getElementById('f-about-p1').value      = content.about_p1;
+        document.getElementById('f-about-p2').value      = content.about_p2;
+        document.getElementById('f-contact-email').value = content.contact_email;
+        document.getElementById('f-contact-handle').value= content.contact_handle;
+        document.getElementById('f-contact-url').value   = content.contact_handle_url;
+        document.getElementById('f-p1-title').value      = content.process_1_title;
+        document.getElementById('f-p1-desc').value       = content.process_1_desc;
+        document.getElementById('f-p2-title').value      = content.process_2_title;
+        document.getElementById('f-p2-desc').value       = content.process_2_desc;
+        document.getElementById('f-p3-title').value      = content.process_3_title;
+        document.getElementById('f-p3-desc').value       = content.process_3_desc;
+
+        // Build work cards
+        const grid = document.getElementById('work-grid');
+        grid.innerHTML = '';
+        work.forEach((item, i) => {
+            const block = document.createElement('div');
+            block.className = 'work-block';
+            block.innerHTML = `<p class="work-block-label">${item.category} · Card ${i + 1}</p>`;
+
+            const titleLabel = document.createElement('label');
+            titleLabel.textContent = 'Title';
+            const titleInput = document.createElement('input');
+            titleInput.type  = 'text';
+            titleInput.id    = 'f-work-' + i + '-title';
+            titleInput.value = item.title;
+            titleLabel.appendChild(titleInput);
+
+            const descLabel = document.createElement('label');
+            descLabel.textContent = 'Description';
+            const descArea  = document.createElement('textarea');
+            descArea.id     = 'f-work-' + i + '-desc';
+            descArea.rows   = 3;
+            descArea.value  = item.desc;
+            descLabel.appendChild(descArea);
+
+            block.appendChild(titleLabel);
+            block.appendChild(descLabel);
+            grid.appendChild(block);
+        });
+    }
+
+    // ── Save ──
+    document.getElementById('save-btn').addEventListener('click', saveAll);
+
+    function saveAll() {
+        const content = {
+            about_p1:           document.getElementById('f-about-p1').value,
+            about_p2:           document.getElementById('f-about-p2').value,
+            contact_email:      document.getElementById('f-contact-email').value,
+            contact_handle:     document.getElementById('f-contact-handle').value,
+            contact_handle_url: document.getElementById('f-contact-url').value,
+            process_1_title:    document.getElementById('f-p1-title').value,
+            process_1_desc:     document.getElementById('f-p1-desc').value,
+            process_2_title:    document.getElementById('f-p2-title').value,
+            process_2_desc:     document.getElementById('f-p2-desc').value,
+            process_3_title:    document.getElementById('f-p3-title').value,
+            process_3_desc:     document.getElementById('f-p3-desc').value,
+        };
+
+        const existing = JSON.parse(localStorage.getItem('work_items') || 'null') || DEFAULT_WORK_ITEMS;
+        const work = existing.map((item, i) => ({
+            ...item,
+            title: (document.getElementById('f-work-' + i + '-title') || {}).value || item.title,
+            desc:  (document.getElementById('f-work-' + i + '-desc')  || {}).value || item.desc,
+        }));
+
+        localStorage.setItem('site_content', JSON.stringify(content));
+        localStorage.setItem('work_items',   JSON.stringify(work));
+
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2800);
+    }
+</script>
+</body>
+</html>

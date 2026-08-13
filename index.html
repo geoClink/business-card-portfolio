@@ -90,9 +90,22 @@
             <span class="sparkle s5"></span>
             <span class="sparkle s6"></span>
         </div>
-        <div class="container">
-            <p class="intro-label">Print design &nbsp;·&nbsp; Business cards &amp; flyers</p>
-            <h1 class="intro-headline">Made to be<br><em>held onto.</em></h1>
+        <div class="container intro-inner">
+            <div class="intro-text">
+                <p class="intro-label">Print design &nbsp;·&nbsp; Business cards &amp; flyers</p>
+                <h1 class="intro-headline">Made to be<br><em>held onto.</em></h1>
+            </div>
+            <div class="intro-card-wrap" aria-hidden="true">
+                <div class="hero-card" id="heroCard">
+                    <div class="hc-bar"></div>
+                    <span class="hc-name">Emmalee<br>Alexander</span>
+                    <div class="hc-bottom">
+                        <span class="hc-role">✦ Print Designer</span>
+                        <span class="hc-location">Frankfort, MI</span>
+                        <span class="hc-email">hello@yourname.com</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -108,60 +121,83 @@
             </div>
 
             <div class="bento-grid">
-                <div class="bento-item bento-item--tall" data-category="business-cards"
-                    style="--card-bg: linear-gradient(160deg, #CBAFB7, #A89098);"
-                    onclick="openModal('Minimalist Luxe', 'A sleek, minimal business card with gold accent type and matte black stock — built for professionals who let the design do the talking.', 'Business Card')">
+                <div class="bento-item bento-item--tall" data-category="business-cards" data-index="0"
+                    style="--card-bg: linear-gradient(160deg, #CBAFB7, #A89098);">
                     <div class="card-body">
                         <p class="card-label">Business Card</p>
-                        <h3 class="card-title">Minimalist Luxe</h3>
+                        <h3 class="card-title"></h3>
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="flyers"
-                    style="--card-bg: linear-gradient(160deg, #9AB8AC, #7E9E94);"
-                    onclick="openModal('Summer Music Fest', 'Vibrant, high-energy event flyer built for print and social — designed to stop the scroll and sell tickets.', 'Flyer')">
+                <div class="bento-item" data-category="flyers" data-index="1"
+                    style="--card-bg: linear-gradient(160deg, #9AB8AC, #7E9E94);">
                     <div class="card-body">
                         <p class="card-label">Flyer</p>
-                        <h3 class="card-title">Summer Music Fest</h3>
+                        <h3 class="card-title"></h3>
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="flyers"
-                    style="--card-bg: linear-gradient(160deg, #B4B0C8, #9A96B4);"
-                    onclick="openModal('Grand Opening', 'Bold promotional flyer with large type and high-contrast color blocking. Built to bring foot traffic in the door.', 'Flyer')">
+                <div class="bento-item" data-category="flyers" data-index="2"
+                    style="--card-bg: linear-gradient(160deg, #B4B0C8, #9A96B4);">
                     <div class="card-body">
                         <p class="card-label">Flyer</p>
-                        <h3 class="card-title">Grand Opening</h3>
+                        <h3 class="card-title"></h3>
                     </div>
                 </div>
 
-                <div class="bento-item bento-item--wide" data-category="business-cards"
-                    style="--card-bg: linear-gradient(160deg, #C8B898, #B4A282);"
-                    onclick="openModal('Eco Botanicals', 'Organic typography and earthy tones designed for a sustainable plant boutique. Printed on recycled kraft stock.', 'Business Card')">
+                <div class="bento-item bento-item--wide" data-category="business-cards" data-index="3"
+                    style="--card-bg: linear-gradient(160deg, #C8B898, #B4A282);">
                     <div class="card-body">
                         <p class="card-label">Business Card</p>
-                        <h3 class="card-title">Eco Botanicals</h3>
+                        <h3 class="card-title"></h3>
                     </div>
                 </div>
 
-                <div class="bento-item bento-item--wide" data-category="flyers"
-                    style="--card-bg: linear-gradient(160deg, #C0ACAC, #A89494);"
-                    onclick="openModal('Community Cookout', 'Friendly, community-focused event flyer with a clean layout that holds up in print and online.', 'Flyer')">
+                <div class="bento-item bento-item--wide" data-category="flyers" data-index="4"
+                    style="--card-bg: linear-gradient(160deg, #C0ACAC, #A89494);">
                     <div class="card-body">
                         <p class="card-label">Flyer</p>
-                        <h3 class="card-title">Community Cookout</h3>
+                        <h3 class="card-title"></h3>
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="business-cards"
-                    style="--card-bg: linear-gradient(160deg, #A0B8C4, #8CA4B0);"
-                    onclick="openModal('Bold &amp; Warm', 'High-contrast warm tones with a chunky serif wordmark. Made for food, lifestyle, and hospitality brands.', 'Business Card')">
+                <div class="bento-item" data-category="business-cards" data-index="5"
+                    style="--card-bg: linear-gradient(160deg, #A0B8C4, #8CA4B0);">
                     <div class="card-body">
                         <p class="card-label">Business Card</p>
-                        <h3 class="card-title">Bold &amp; Warm</h3>
+                        <h3 class="card-title"></h3>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section id="process" class="section-process">
+        <div class="container reveal">
+            <span class="eyebrow">How it works</span>
+            <ol class="process-steps">
+                <li class="process-step">
+                    <span class="process-num">01</span>
+                    <div class="process-body">
+                        <h3 class="process-title" id="process-1-title">Reach out</h3>
+                        <p class="process-desc" id="process-1-desc">Tell me about your business, the vibe you're after, and any ideas you have. No design experience needed on your end.</p>
+                    </div>
+                </li>
+                <li class="process-step">
+                    <span class="process-num">02</span>
+                    <div class="process-body">
+                        <h3 class="process-title" id="process-2-title">We design it</h3>
+                        <p class="process-desc" id="process-2-desc">I'll share a few concepts and we'll refine together until it feels exactly right — back and forth until you love it.</p>
+                    </div>
+                </li>
+                <li class="process-step">
+                    <span class="process-num">03</span>
+                    <div class="process-body">
+                        <h3 class="process-title" id="process-3-title">Files delivered</h3>
+                        <p class="process-desc" id="process-3-desc">High-res, print-ready files straight to your inbox, ready to hand off to any printer. Social sizes included if you need them.</p>
+                    </div>
+                </li>
+            </ol>
         </div>
     </section>
 
@@ -174,8 +210,8 @@
                     <span class="about-photo-label">Photo</span>
                 </div>
                 <div class="about-text">
-                    <p>I'm Emmalee, a 19-year-old designer from Frankfort, MI. I started making business cards and flyers because I love how good design can make something feel real — like a brand that actually means something.</p>
-                    <p>I'm still early in my journey, but I take every project seriously. I work from scratch, I listen, and I don't stop until it feels right.</p>
+                    <p id="about-p1">I'm Emmalee, a 19-year-old designer from Frankfort, MI. I started making business cards and flyers because I love how good design can make something feel real — like a brand that actually means something.</p>
+                    <p id="about-p2">I'm still early in my journey, but I take every project seriously. I work from scratch, I listen, and I don't stop until it feels right.</p>
                 </div>
             </div>
         </div>
@@ -185,10 +221,30 @@
         <div class="container reveal">
             <span class="eyebrow">Contact</span>
             <h2 class="contact-heading">Let's make something.</h2>
+
+            <!-- Replace YOUR_FORM_ID below: sign up at formspree.io, create a form, and paste the ID -->
+            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="form-row">
+                    <label class="form-label">
+                        Your name
+                        <input class="form-input" type="text" name="name" placeholder="Jane Smith" required>
+                    </label>
+                    <label class="form-label">
+                        Your email
+                        <input class="form-input" type="email" name="email" placeholder="jane@example.com" required>
+                    </label>
+                </div>
+                <label class="form-label">
+                    What do you need?
+                    <textarea class="form-input form-textarea" name="message" placeholder="Tell me about your project — what you do, what you're picturing, any ideas you have." required></textarea>
+                </label>
+                <button class="form-submit" type="submit">Send message</button>
+            </form>
+
             <div class="contact-links">
-                <a href="mailto:hello@yourname.com">hello@yourname.com</a>
+                <a id="contact-email" href="mailto:hello@yourname.com">hello@yourname.com</a>
                 <span class="contact-dot" aria-hidden="true">·</span>
-                <a href="#" target="_blank" rel="noopener">@yourhandle</a>
+                <a id="contact-handle" href="#" target="_blank" rel="noopener">@yourhandle</a>
             </div>
         </div>
     </section>
@@ -197,6 +253,7 @@
         <div class="container footer-inner">
             <span class="footer-name">Emmalee Alexander</span>
             <span class="footer-copy">&copy; 2026</span>
+            <a href="admin.html" class="footer-admin">Admin</a>
         </div>
     </footer>
 
