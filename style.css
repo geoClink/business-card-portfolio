@@ -11,7 +11,7 @@
     --border:       #E4D8DC;
     --nav-bg:       rgba(250, 247, 244, 0.92);
 
-    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-display: 'Fraunces', Georgia, serif;
     --font-body:    'DM Sans', system-ui, sans-serif;
 
     --max-w:  1080px;
@@ -208,8 +208,9 @@ body {
 
 .intro-headline {
     font-family: var(--font-display);
-    font-size: clamp(3.2rem, 9vw, 6.4rem);
-    font-weight: 400;
+    font-size: clamp(3rem, 9vw, 6.2rem);
+    font-weight: 300;
+    font-optical-sizing: auto;
     line-height: 1.05;
     text-wrap: balance;
     color: var(--ink);
@@ -436,8 +437,9 @@ body {
 .contact-heading {
     font-family: var(--font-display);
     font-size: clamp(2rem, 5vw, 3.4rem);
-    font-weight: 400;
+    font-weight: 300;
     font-style: italic;
+    font-optical-sizing: auto;
     color: var(--ink);
     margin-bottom: 28px;
     line-height: 1.1;
@@ -581,6 +583,25 @@ footer {
 }
 
 /* ── Responsive ── */
+
+@media (min-width: 701px) and (max-width: 900px) {
+    .intro {
+        padding: 82px 0 66px;
+    }
+
+    .section-about,
+    .section-contact {
+        padding: 72px 0;
+    }
+
+    .section-work {
+        padding-bottom: 80px;
+    }
+
+    .bento-grid {
+        grid-auto-rows: 200px;
+    }
+}
 
 @media (max-width: 700px) {
     .intro {
