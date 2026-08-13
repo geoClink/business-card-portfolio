@@ -1,3 +1,57 @@
+// ── Font pairs ──
+
+const FONT_PAIRS = {
+    fraunces: {
+        label: 'Fraunces + DM Sans',
+        desc:  'Elegant italic serif — the current default',
+        display: "'Fraunces', Georgia, serif",
+        body:    "'DM Sans', system-ui, sans-serif",
+        google:  'Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500',
+    },
+    playfair: {
+        label: 'Playfair + Source Sans',
+        desc:  'Classic editorial, great for luxury brands',
+        display: "'Playfair Display', Georgia, serif",
+        body:    "'Source Sans 3', system-ui, sans-serif",
+        google:  'Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Source+Sans+3:wght@300;400;500',
+    },
+    cormorant: {
+        label: 'Cormorant + Inter',
+        desc:  'Refined and light — very high-fashion',
+        display: "'Cormorant Garamond', Georgia, serif",
+        body:    "'Inter', system-ui, sans-serif",
+        google:  'Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500',
+    },
+    lora: {
+        label: 'Lora + Nunito',
+        desc:  'Warm and approachable, great for small business',
+        display: "'Lora', Georgia, serif",
+        body:    "'Nunito', system-ui, sans-serif",
+        google:  'Lora:ital,wght@0,400;0,500;1,400;1,500&family=Nunito:wght@300;400;500',
+    },
+    libre: {
+        label: 'Libre Baskerville + Open Sans',
+        desc:  'Traditional and sturdy — highly readable',
+        display: "'Libre Baskerville', Georgia, serif",
+        body:    "'Open Sans', system-ui, sans-serif",
+        google:  'Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@300;400;500',
+    },
+};
+
+function applyFonts() {
+    const key  = localStorage.getItem('font_pair') || 'fraunces';
+    const pair = FONT_PAIRS[key] || FONT_PAIRS.fraunces;
+    if (key === 'fraunces') return; // default fonts already in <head>
+    const link = document.createElement('link');
+    link.rel   = 'stylesheet';
+    link.href  = `https://fonts.googleapis.com/css2?family=${pair.google}&display=swap`;
+    document.head.appendChild(link);
+    document.documentElement.style.setProperty('--font-display', pair.display);
+    document.documentElement.style.setProperty('--font-body',    pair.body);
+}
+
+applyFonts();
+
 // ── Content defaults ──
 
 const DEFAULT_CONTENT = {
@@ -12,6 +66,17 @@ const DEFAULT_CONTENT = {
     process_2_desc:  "I'll share a few concepts and we'll refine together until it feels exactly right — back and forth until you love it.",
     process_3_title: 'Files delivered',
     process_3_desc:  'High-res, print-ready files straight to your inbox, ready to hand off to any printer. Social sizes included if you need them.',
+    pricing_bc_price: '$65',
+    pricing_bc_li_0:  'Custom from-scratch design',
+    pricing_bc_li_1:  '2 revisions included',
+    pricing_bc_li_2:  'Print-ready files delivered',
+    pricing_bc_li_3:  'Social sizes on request',
+    pricing_fl_price: '$75',
+    pricing_fl_li_0:  'Custom from-scratch design',
+    pricing_fl_li_1:  '2 revisions included',
+    pricing_fl_li_2:  'Print-ready files delivered',
+    pricing_fl_li_3:  'Digital sizes on request',
+    pricing_note:     "Every project is different — reach out for a custom quote.",
 };
 
 const DEFAULT_WORK_ITEMS = [
@@ -71,6 +136,18 @@ function loadContent() {
         if (quoteEl)    quoteEl.textContent    = review.quote;
         if (nameEl)     nameEl.textContent     = review.name;
         if (businessEl) businessEl.textContent = review.business;
+    });
+
+    // Pricing
+    const pricingIds = [
+        'pricing-bc-price', 'pricing-bc-li-0', 'pricing-bc-li-1', 'pricing-bc-li-2', 'pricing-bc-li-3',
+        'pricing-fl-price', 'pricing-fl-li-0', 'pricing-fl-li-1', 'pricing-fl-li-2', 'pricing-fl-li-3',
+        'pricing-note',
+    ];
+    pricingIds.forEach(id => {
+        const el  = document.getElementById(id);
+        const key = id.replace(/-/g, '_');
+        if (el && content[key] !== undefined) el.textContent = content[key];
     });
 
     // Work items — populate card titles, images, and wire click handlers

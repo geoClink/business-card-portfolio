@@ -1354,8 +1354,23 @@ footer {
     .sparkle-field { display: none; }
 
     .modal-panel {
-        padding: 32px 24px 28px;
         border-radius: 14px;
+    }
+
+    .modal-image-wrap {
+        height: 200px;
+    }
+
+    .modal-body {
+        padding: 20px 24px 16px;
+    }
+
+    .modal-panel:not(.has-image) .modal-body {
+        padding-top: 40px;
+    }
+
+    .modal-nav {
+        padding: 14px 24px 20px;
     }
 }
 

@@ -322,6 +322,15 @@
             margin-bottom: 24px;
         }
 
+        .section-desc code {
+            font-family: ui-monospace, monospace;
+            font-size: 0.78rem;
+            background: var(--surface);
+            padding: 1px 5px;
+            border-radius: 4px;
+            color: var(--ink-mid);
+        }
+
         /* Fields */
 
         .fields {
@@ -426,10 +435,80 @@
             color: var(--accent);
         }
 
+        /* ── Font picker ── */
+
+        .font-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .font-option {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            transition: border-color 0.18s, background 0.18s;
+        }
+
+        .font-option:has(input:checked) {
+            border-color: var(--accent);
+            background: var(--surface);
+        }
+
+        .font-option input[type="radio"] { display: none; }
+
+        .font-option-check {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.18s;
+        }
+
+        .font-option:has(input:checked) .font-option-check {
+            border-color: var(--accent);
+            background: var(--accent);
+        }
+
+        .font-option:has(input:checked) .font-option-check::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: white;
+        }
+
+        .font-option-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .font-option-desc {
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+            line-height: 1.4;
+        }
+
         /* ── Responsive ── */
 
         @media (max-width: 900px) {
             .step-grid { grid-template-columns: 1fr; }
+            .font-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 560px) {
+            .font-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
@@ -527,7 +606,9 @@
         <nav>
             <a href="#s-about">About</a>
             <a href="#s-contact">Contact</a>
+            <a href="#s-fonts">Fonts</a>
             <a href="#s-process">How it works</a>
+            <a href="#s-pricing">Pricing</a>
             <a href="#s-reviews">Reviews</a>
             <a href="#s-work">Work</a>
         </nav>
@@ -576,6 +657,44 @@
                 </div>
             </section>
 
+            <!-- Fonts -->
+            <section class="admin-section" id="s-fonts">
+                <h2>Fonts</h2>
+                <p class="section-desc">Choose a font pairing for the whole site. The change goes live when you hit Save.</p>
+                <div class="font-grid">
+                    <label class="font-option">
+                        <input type="radio" name="font_pair" value="fraunces">
+                        <div class="font-option-check"></div>
+                        <span class="font-option-name">Fraunces + DM Sans</span>
+                        <span class="font-option-desc">Elegant italic serif — the current default</span>
+                    </label>
+                    <label class="font-option">
+                        <input type="radio" name="font_pair" value="playfair">
+                        <div class="font-option-check"></div>
+                        <span class="font-option-name">Playfair + Source Sans</span>
+                        <span class="font-option-desc">Classic editorial — great for luxury brands</span>
+                    </label>
+                    <label class="font-option">
+                        <input type="radio" name="font_pair" value="cormorant">
+                        <div class="font-option-check"></div>
+                        <span class="font-option-name">Cormorant + Inter</span>
+                        <span class="font-option-desc">Refined and light — very high-fashion</span>
+                    </label>
+                    <label class="font-option">
+                        <input type="radio" name="font_pair" value="lora">
+                        <div class="font-option-check"></div>
+                        <span class="font-option-name">Lora + Nunito</span>
+                        <span class="font-option-desc">Warm and approachable — great for small business</span>
+                    </label>
+                    <label class="font-option">
+                        <input type="radio" name="font_pair" value="libre">
+                        <div class="font-option-check"></div>
+                        <span class="font-option-name">Libre Baskerville + Open Sans</span>
+                        <span class="font-option-desc">Traditional and sturdy — highly readable</span>
+                    </label>
+                </div>
+            </section>
+
             <!-- How it works -->
             <section class="admin-section" id="s-process">
                 <h2>How it works</h2>
@@ -606,6 +725,40 @@
                         </label>
                         <label>Description
                             <textarea id="f-p3-desc" rows="3"></textarea>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pricing -->
+            <section class="admin-section" id="s-pricing">
+                <h2>Pricing</h2>
+                <p class="section-desc">The prices and bullet points shown on each pricing card.</p>
+                <div class="step-grid">
+                    <div class="step-block">
+                        <span class="step-num" style="font-size:1.1rem;color:var(--accent);">Business Cards</span>
+                        <label>Price (e.g. $65)
+                            <input type="text" id="f-pricing-bc-price">
+                        </label>
+                        <label>Bullet 1 <input type="text" id="f-pricing-bc-li-0"></label>
+                        <label>Bullet 2 <input type="text" id="f-pricing-bc-li-1"></label>
+                        <label>Bullet 3 <input type="text" id="f-pricing-bc-li-2"></label>
+                        <label>Bullet 4 <input type="text" id="f-pricing-bc-li-3"></label>
+                    </div>
+                    <div class="step-block">
+                        <span class="step-num" style="font-size:1.1rem;color:var(--accent);">Flyers</span>
+                        <label>Price (e.g. $75)
+                            <input type="text" id="f-pricing-fl-price">
+                        </label>
+                        <label>Bullet 1 <input type="text" id="f-pricing-fl-li-0"></label>
+                        <label>Bullet 2 <input type="text" id="f-pricing-fl-li-1"></label>
+                        <label>Bullet 3 <input type="text" id="f-pricing-fl-li-2"></label>
+                        <label>Bullet 4 <input type="text" id="f-pricing-fl-li-3"></label>
+                    </div>
+                    <div class="step-block">
+                        <span class="step-num" style="font-size:1.1rem;color:var(--accent);">Note</span>
+                        <label>Pricing note (shown below cards)
+                            <textarea id="f-pricing-note" rows="2"></textarea>
                         </label>
                     </div>
                 </div>
@@ -658,7 +811,7 @@
             <!-- Work -->
             <section class="admin-section" id="s-work">
                 <h2>Work</h2>
-                <p class="section-desc">The title and description for each portfolio card. Card colors and layout are fixed.</p>
+                <p class="section-desc">Title, description, and image for each case study. Drop image files into the <code>images/</code> folder, then enter the filename here (e.g. <code>my-card.jpg</code>).</p>
                 <div class="work-grid" id="work-grid"></div>
             </section>
 
@@ -685,6 +838,17 @@
         process_2_desc:     "I'll share a few concepts and we'll refine together until it feels exactly right — back and forth until you love it.",
         process_3_title:    'Files delivered',
         process_3_desc:     'High-res, print-ready files straight to your inbox, ready to hand off to any printer. Social sizes included if you need them.',
+        pricing_bc_price:   '$65',
+        pricing_bc_li_0:    'Custom from-scratch design',
+        pricing_bc_li_1:    '2 revisions included',
+        pricing_bc_li_2:    'Print-ready files delivered',
+        pricing_bc_li_3:    'Social sizes on request',
+        pricing_fl_price:   '$75',
+        pricing_fl_li_0:    'Custom from-scratch design',
+        pricing_fl_li_1:    '2 revisions included',
+        pricing_fl_li_2:    'Print-ready files delivered',
+        pricing_fl_li_3:    'Digital sizes on request',
+        pricing_note:       'Every project is different — reach out for a custom quote.',
     };
 
     const DEFAULT_REVIEWS = [
@@ -746,6 +910,22 @@
         document.getElementById('f-p3-title').value      = content.process_3_title;
         document.getElementById('f-p3-desc').value       = content.process_3_desc;
 
+        // Font pair
+        const savedFont = localStorage.getItem('font_pair') || 'fraunces';
+        const fontRadio = document.querySelector(`input[name="font_pair"][value="${savedFont}"]`);
+        if (fontRadio) fontRadio.checked = true;
+
+        // Pricing
+        const pricingFields = [
+            'pricing_bc_price', 'pricing_bc_li_0', 'pricing_bc_li_1', 'pricing_bc_li_2', 'pricing_bc_li_3',
+            'pricing_fl_price', 'pricing_fl_li_0', 'pricing_fl_li_1', 'pricing_fl_li_2', 'pricing_fl_li_3',
+            'pricing_note',
+        ];
+        pricingFields.forEach(key => {
+            const el = document.getElementById('f-' + key.replace(/_/g, '-'));
+            if (el) el.value = content[key] || '';
+        });
+
         // Reviews
         const reviews = JSON.parse(localStorage.getItem('reviews') || 'null') || DEFAULT_REVIEWS;
         reviews.forEach((review, i) => {
@@ -781,8 +961,18 @@
             descArea.value  = item.desc;
             descLabel.appendChild(descArea);
 
+            const imageLabel = document.createElement('label');
+            imageLabel.textContent = 'Image filename (e.g. my-card.jpg)';
+            const imageInput = document.createElement('input');
+            imageInput.type        = 'text';
+            imageInput.id          = 'f-work-' + i + '-image';
+            imageInput.value       = item.image || '';
+            imageInput.placeholder = 'e.g. minimalist-luxe.jpg';
+            imageLabel.appendChild(imageInput);
+
             block.appendChild(titleLabel);
             block.appendChild(descLabel);
+            block.appendChild(imageLabel);
             grid.appendChild(block);
         });
     }
@@ -803,6 +993,17 @@
             process_2_desc:     document.getElementById('f-p2-desc').value,
             process_3_title:    document.getElementById('f-p3-title').value,
             process_3_desc:     document.getElementById('f-p3-desc').value,
+            pricing_bc_price:   document.getElementById('f-pricing-bc-price').value,
+            pricing_bc_li_0:    document.getElementById('f-pricing-bc-li-0').value,
+            pricing_bc_li_1:    document.getElementById('f-pricing-bc-li-1').value,
+            pricing_bc_li_2:    document.getElementById('f-pricing-bc-li-2').value,
+            pricing_bc_li_3:    document.getElementById('f-pricing-bc-li-3').value,
+            pricing_fl_price:   document.getElementById('f-pricing-fl-price').value,
+            pricing_fl_li_0:    document.getElementById('f-pricing-fl-li-0').value,
+            pricing_fl_li_1:    document.getElementById('f-pricing-fl-li-1').value,
+            pricing_fl_li_2:    document.getElementById('f-pricing-fl-li-2').value,
+            pricing_fl_li_3:    document.getElementById('f-pricing-fl-li-3').value,
+            pricing_note:       document.getElementById('f-pricing-note').value,
         };
 
         const existing = JSON.parse(localStorage.getItem('work_items') || 'null') || DEFAULT_WORK_ITEMS;
@@ -810,6 +1011,7 @@
             ...item,
             title: (document.getElementById('f-work-' + i + '-title') || {}).value || item.title,
             desc:  (document.getElementById('f-work-' + i + '-desc')  || {}).value || item.desc,
+            image: (document.getElementById('f-work-' + i + '-image') || {}).value ?? (item.image || ''),
         }));
 
         const reviews = DEFAULT_REVIEWS.map((_, i) => ({
@@ -817,6 +1019,9 @@
             name:     (document.getElementById('f-review-' + i + '-name')     || {}).value || '',
             business: (document.getElementById('f-review-' + i + '-business') || {}).value || '',
         }));
+
+        const selectedFont = document.querySelector('input[name="font_pair"]:checked');
+        if (selectedFont) localStorage.setItem('font_pair', selectedFont.value);
 
         localStorage.setItem('site_content', JSON.stringify(content));
         localStorage.setItem('work_items',   JSON.stringify(work));
