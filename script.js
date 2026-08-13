@@ -213,3 +213,39 @@ document.querySelectorAll('.process-card-scene').forEach(scene => {
         scene.classList.toggle('is-flipped');
     });
 });
+
+// ── Hamburger menu ──
+
+const siteNav   = document.querySelector('.site-nav');
+const navToggle = document.querySelector('.nav-toggle');
+
+function closeNav() {
+    siteNav.classList.remove('nav-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Open menu');
+}
+
+if (navToggle) {
+    navToggle.addEventListener('click', () => {
+        const isOpen = siteNav.classList.toggle('nav-open');
+        navToggle.setAttribute('aria-expanded', isOpen);
+        navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    });
+
+    document.querySelector('.nav-links').querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeNav);
+    });
+
+    document.addEventListener('click', (e) => {
+        if (siteNav.classList.contains('nav-open') && !siteNav.contains(e.target)) {
+            closeNav();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && siteNav.classList.contains('nav-open')) {
+            closeNav();
+            navToggle.focus();
+        }
+    });
+}
