@@ -928,6 +928,11 @@ footer {
     transition: color 0.2s;
 }
 
+.footer-linkedin-text {
+    display: none;
+    font-size: 0.8rem;
+}
+
 .footer-linkedin:hover {
     color: var(--ink);
 }
@@ -1584,6 +1589,20 @@ footer {
     .nav-name { font-size: 1rem; }
 
     .contact-heading { margin-bottom: 20px; }
+
+    .footer-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 16px;
+    }
+
+    .footer-name {
+        width: 100%;
+        text-align: center;
+    }
+
+    .footer-linkedin-icon { display: none; }
+    .footer-linkedin-text { display: inline; }
 }
 
 /* ── Reduced motion ── */

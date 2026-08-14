@@ -370,9 +370,8 @@ function openModal(index) {
     const websiteEl = document.getElementById('modal-website');
     if (websiteEl) {
         if (work.link) {
-            websiteEl.href        = work.link;
-            websiteEl.textContent = work.link.replace(/^https?:\/\//, '') + ' →';
-            websiteEl.hidden      = false;
+            websiteEl.href   = work.link;
+            websiteEl.hidden = false;
         } else {
             websiteEl.hidden = true;
         }
