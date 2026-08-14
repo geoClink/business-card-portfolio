@@ -334,14 +334,14 @@ card3dEl.addEventListener('touchstart', e => {
     drag3DBaseAngle = spinAngle;
 }, { passive: true });
 
-card3dEl.addEventListener('touchmove', e => {
+document.addEventListener('touchmove', e => {
     if (!isDragging3D) return;
     spinAngle = drag3DBaseAngle + (e.touches[0].clientX - drag3DStartX) * 0.55;
     applyCardAngle(spinAngle);
     e.preventDefault();
 }, { passive: false });
 
-card3dEl.addEventListener('touchend', () => { isDragging3D = false; });
+document.addEventListener('touchend', () => { isDragging3D = false; });
 
 // ── Modal ──
 
@@ -509,3 +509,19 @@ if (navToggle) {
         }
     });
 }
+
+// ── Active nav highlight ──
+
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+            link.classList.toggle('nav-active', link.getAttribute('href') === `#${id}`);
+        });
+    });
+}, { rootMargin: '-40% 0px -55% 0px' });
+
+document.querySelectorAll('section[id]').forEach(sec => sectionObserver.observe(sec));

@@ -192,6 +192,17 @@ body {
     color: var(--ink);
 }
 
+.nav-links a.nav-active {
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.nav-links a.nav-active::before {
+    content: '✦ ';
+    font-size: 0.6em;
+    vertical-align: middle;
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
