@@ -284,12 +284,12 @@
                 <div class="pricing-card pricing-card--invitations">
                     <p class="pricing-type">Invitations</p>
                     <p class="pricing-from">Starting at</p>
-                    <p class="pricing-price">$85</p>
+                    <p class="pricing-price" id="pricing-inv-price">$85</p>
                     <ul class="pricing-list">
-                        <li>Custom from-scratch design</li>
-                        <li>Print-ready &amp; digital files</li>
-                        <li>2 revisions included</li>
-                        <li>Full suite pricing on request</li>
+                        <li id="pricing-inv-li-0">Custom from-scratch design</li>
+                        <li id="pricing-inv-li-1">Print-ready &amp; digital files</li>
+                        <li id="pricing-inv-li-2">2 revisions included</li>
+                        <li id="pricing-inv-li-3">Full suite pricing on request</li>
                     </ul>
                 </div>
             </div>
@@ -306,8 +306,8 @@
                     <span class="about-photo-label">Photo</span>
                 </div>
                 <div class="about-text">
-                    <p id="about-p1">I'm Emmalee, a 19-year-old designer from Frankfort, MI. I started making business cards and flyers because I love how good design can make something feel real — like a brand that actually means something.</p>
-                    <p id="about-p2">I'm still early in my journey, but I take every project seriously. I work from scratch, I listen, and I don't stop until it feels right.</p>
+                    <p id="about-p1">I'm Emmalee, a designer from Frankfort, MI. I started with business cards and flyers because I love how good print design can make something feel real — a brand you'd actually hold onto, an invitation worth keeping.</p>
+                    <p id="about-p2">Every project is built from scratch — no templates, no shortcuts. I listen first, ask questions, and don't deliver until it feels right.</p>
                 </div>
             </div>
         </div>
@@ -340,9 +340,18 @@
                         <input class="form-input" type="email" name="email" placeholder="jane@example.com" required>
                     </label>
                 </div>
+                <div class="form-type-group">
+                    <p class="form-type-label">What are you working on?</p>
+                    <div class="form-type-options">
+                        <label class="form-type-opt"><input type="radio" name="project_type" value="Business Card"><span>Business Card</span></label>
+                        <label class="form-type-opt"><input type="radio" name="project_type" value="Flyer"><span>Flyer</span></label>
+                        <label class="form-type-opt"><input type="radio" name="project_type" value="Invitation"><span>Invitation</span></label>
+                        <label class="form-type-opt"><input type="radio" name="project_type" value="Not sure yet"><span>Not sure yet</span></label>
+                    </div>
+                </div>
                 <label class="form-label">
-                    What do you need?
-                    <textarea class="form-input form-textarea" name="message" placeholder="Tell me about your project — what you do, what you're picturing, any ideas you have." required></textarea>
+                    Tell me more
+                    <textarea class="form-input form-textarea" name="message" placeholder="What you do, what you're picturing, any ideas you have — no design experience needed." required></textarea>
                 </label>
                 <button class="form-submit" type="submit">Send message</button>
             </form>

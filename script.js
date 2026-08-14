@@ -55,8 +55,8 @@ applyFonts();
 // ── Content defaults ──
 
 const DEFAULT_CONTENT = {
-    about_p1:        "I'm Emmalee, a 19-year-old designer from Frankfort, MI. I started making business cards and flyers because I love how good design can make something feel real — like a brand that actually means something.",
-    about_p2:        "I'm still early in my journey, but I take every project seriously. I work from scratch, I listen, and I don't stop until it feels right.",
+    about_p1:        "I'm Emmalee, a designer from Frankfort, MI. I started with business cards and flyers because I love how good print design can make something feel real — a brand you'd actually hold onto, an invitation worth keeping.",
+    about_p2:        "Every project is built from scratch — no templates, no shortcuts. I listen first, ask questions, and don't deliver until it feels right.",
     contact_email:   'emmaleealexander527@gmail.com',
     contact_handle:  '@yourhandle',
     contact_handle_url: '#',
@@ -76,23 +76,29 @@ const DEFAULT_CONTENT = {
     pricing_fl_li_1:  '2 revisions included',
     pricing_fl_li_2:  'Print-ready files delivered',
     pricing_fl_li_3:  'Digital sizes on request',
+    pricing_inv_price: '$85',
+    pricing_inv_li_0:  'Custom from-scratch design',
+    pricing_inv_li_1:  'Print-ready & digital files',
+    pricing_inv_li_2:  '2 revisions included',
+    pricing_inv_li_3:  'Full suite pricing on request',
     pricing_note:     "Every project is different — reach out for a custom quote.",
 };
 
 const DEFAULT_WORK_ITEMS = [
-    { title: 'Graduation Party Invite', desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',                                      category: 'Flyer',         image: 'emmalee-grad-invite.PNG',          imageBack: 'emmalee-grad-invite.PNG',          imgRatio: 0.71, imgPos: 'top', noDrag: true },
-    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com',    imgRatio: 1.75 },
+    { title: 'Graduation Party Invite', desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',                                      category: 'Flyer',         image: 'emmalee-grad-invite.webp',          imageBack: 'emmalee-grad-invite.webp',          imgRatio: 0.71, imgPos: 'top', noDrag: true },
+    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.webp', link: 'https://whitebearharmonics.com',    imgRatio: 1.75 },
     { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',           imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com', imgRatio: 1.75 },
-    { title: 'Graduation Thank You Card', desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: 'emmalee-grad-thank-you.PNG',       bgPos: 'top',  imgRatio: 1.50, noDrag: true },
-    { title: 'Wedding Invitation',        desc: 'Vintage modern minimal wedding invitation — editorial serif type over a candid photo, warm and timeless. A spec piece showing what a custom wedding suite could look like.',                              category: 'Invitation',    image: 'wedding-invitation.PNG',      imageBack: 'wedding-invitation.PNG',      imgRatio: 0.71, imgPos: 'top', noDrag: true, spec: true },
-    { title: 'Baby Shower Invitation',    desc: 'Pink and brown illustrative baby shower invitation — whimsical goose illustration, soft palette, handwritten-style type. A spec piece showing a full event invitation package.',                         category: 'Invitation',    image: 'baby-shower-invitation.PNG',  imageBack: 'baby-shower-invitation.PNG',  imgRatio: 0.75, imgPos: 'top', noDrag: true, spec: true },
+    { title: 'Graduation Thank You Card', desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.webp',       imageBack: 'emmalee-grad-thank-you.webp',       bgPos: 'top',  imgRatio: 1.50, noDrag: true },
+    { title: 'Wedding Invitation',        desc: 'Vintage modern minimal wedding invitation — editorial serif type over a candid photo, warm and timeless. A spec piece showing what a custom wedding suite could look like.',                              category: 'Invitation',    image: 'wedding-invitation.webp',      imageBack: 'wedding-invitation.webp',      imgRatio: 0.71, imgPos: 'top', noDrag: true, spec: true },
+    { title: 'Baby Shower Invitation',    desc: 'Pink and brown illustrative baby shower invitation — whimsical goose illustration, soft palette, handwritten-style type. A spec piece showing a full event invitation package.',                         category: 'Invitation',    image: 'baby-shower-invitation.webp',  imageBack: 'baby-shower-invitation.webp',  imgRatio: 0.75, imgPos: 'top', noDrag: true, spec: true },
 ];
 
 // Bump this string whenever default data changes in a meaningful way
-const DATA_VERSION = '9';
+const DATA_VERSION = '11';
 (function() {
     if (localStorage.getItem('data_v') !== DATA_VERSION) {
         localStorage.removeItem('work_items');
+        localStorage.removeItem('reviews');
         localStorage.setItem('data_v', DATA_VERSION);
     }
 })();
@@ -100,8 +106,8 @@ const DATA_VERSION = '9';
 const workItems = JSON.parse(localStorage.getItem('work_items') || 'null') || DEFAULT_WORK_ITEMS;
 
 const DEFAULT_REVIEWS = [
-    { name: 'George Clinkscales', business: 'Personal Web Developer', quote: "I made a business card for myself at first. Emmalee told me she could make one better. So I let her. I love my business card and have a lot of confidence when I give it out to potential clients." },
-    { name: '', business: '', quote: '' },
+    { name: 'George Clinkscales',  business: 'Personal Web Developer', quote: "I made a business card for myself at first. Emmalee told me she could make one better. So I let her. I love my business card and have a lot of confidence when I give it out to potential clients." },
+    { name: 'Dr. Karen Alexander', business: 'White Bear Harmonics',    quote: "I'm so impressed with Emmalee's design work. She took my vision and added style and beauty to create a business card that I know will attract customers and help to grow my wellness company. I highly recommend her work!" },
     { name: '', business: '', quote: '' },
 ];
 
@@ -139,11 +145,18 @@ function loadContent() {
     if (track) {
         const real = reviews.filter(r => r.quote && r.quote.trim());
         if (real.length > 0) {
-            // Repeat until we have at least 8 cards, then double for seamless loop
-            const minCount = 8;
-            const repeated = [];
-            while (repeated.length < minCount) repeated.push(...real);
-            [...repeated, ...repeated].forEach(review => {
+            const isFew = real.length < 3;
+            if (isFew) track.classList.add('reviews-static');
+
+            // Few reviews: show once, static. Enough reviews: repeat + scroll.
+            const toRender = isFew ? real : (() => {
+                const minCount = 8;
+                const repeated = [];
+                while (repeated.length < minCount) repeated.push(...real);
+                return [...repeated, ...repeated];
+            })();
+
+            toRender.forEach(review => {
                 const card = document.createElement('figure');
                 card.className = 'review-card';
 
@@ -169,9 +182,11 @@ function loadContent() {
                 track.appendChild(card);
             });
 
-            // Scale scroll speed to number of cards (340px per card at ~80px/s)
-            const duration = repeated.length * 340 / 80;
-            track.style.animationDuration = `${Math.round(duration)}s`;
+            if (!isFew) {
+                // Scale scroll speed to number of cards (340px per card at ~80px/s)
+                const duration = toRender.length / 2 * 340 / 80;
+                track.style.animationDuration = `${Math.round(duration)}s`;
+            }
         }
     }
 
@@ -179,6 +194,7 @@ function loadContent() {
     const pricingIds = [
         'pricing-bc-price', 'pricing-bc-li-0', 'pricing-bc-li-1', 'pricing-bc-li-2', 'pricing-bc-li-3',
         'pricing-fl-price', 'pricing-fl-li-0', 'pricing-fl-li-1', 'pricing-fl-li-2', 'pricing-fl-li-3',
+        'pricing-inv-price', 'pricing-inv-li-0', 'pricing-inv-li-1', 'pricing-inv-li-2', 'pricing-inv-li-3',
         'pricing-note',
     ];
     pricingIds.forEach(id => {

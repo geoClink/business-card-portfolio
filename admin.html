@@ -734,7 +734,7 @@
             <section class="admin-section" id="s-pricing">
                 <h2>Pricing</h2>
                 <p class="section-desc">The prices and bullet points shown on each pricing card.</p>
-                <div class="step-grid">
+                <div class="step-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
                     <div class="step-block">
                         <span class="step-num" style="font-size:1.1rem;color:var(--accent);">Business Cards</span>
                         <label>Price (e.g. $65)
@@ -754,6 +754,16 @@
                         <label>Bullet 2 <input type="text" id="f-pricing-fl-li-1"></label>
                         <label>Bullet 3 <input type="text" id="f-pricing-fl-li-2"></label>
                         <label>Bullet 4 <input type="text" id="f-pricing-fl-li-3"></label>
+                    </div>
+                    <div class="step-block">
+                        <span class="step-num" style="font-size:1.1rem;color:var(--accent);">Invitations</span>
+                        <label>Price (e.g. $85)
+                            <input type="text" id="f-pricing-inv-price">
+                        </label>
+                        <label>Bullet 1 <input type="text" id="f-pricing-inv-li-0"></label>
+                        <label>Bullet 2 <input type="text" id="f-pricing-inv-li-1"></label>
+                        <label>Bullet 3 <input type="text" id="f-pricing-inv-li-2"></label>
+                        <label>Bullet 4 <input type="text" id="f-pricing-inv-li-3"></label>
                     </div>
                     <div class="step-block">
                         <span class="step-num" style="font-size:1.1rem;color:var(--accent);">Note</span>
@@ -827,8 +837,8 @@
 
     // ── Defaults (must match script.js) ──
     const DEFAULT_CONTENT = {
-        about_p1:           "I'm Emmalee, a 19-year-old designer from Frankfort, MI. I started making business cards and flyers because I love how good design can make something feel real — like a brand that actually means something.",
-        about_p2:           "I'm still early in my journey, but I take every project seriously. I work from scratch, I listen, and I don't stop until it feels right.",
+        about_p1:           "I'm Emmalee, a designer from Frankfort, MI. I started with business cards and flyers because I love how good print design can make something feel real — a brand you'd actually hold onto, an invitation worth keeping.",
+        about_p2:           "Every project is built from scratch — no templates, no shortcuts. I listen first, ask questions, and don't deliver until it feels right.",
         contact_email:      'emmaleealexander527@gmail.com',
         contact_handle:     '@yourhandle',
         contact_handle_url: '#',
@@ -848,12 +858,17 @@
         pricing_fl_li_1:    '2 revisions included',
         pricing_fl_li_2:    'Print-ready files delivered',
         pricing_fl_li_3:    'Digital sizes on request',
+        pricing_inv_price:  '$85',
+        pricing_inv_li_0:   'Custom from-scratch design',
+        pricing_inv_li_1:   'Print-ready & digital files',
+        pricing_inv_li_2:   '2 revisions included',
+        pricing_inv_li_3:   'Full suite pricing on request',
         pricing_note:       'Every project is different — reach out for a custom quote.',
     };
 
     const DEFAULT_REVIEWS = [
-        { name: 'George Clinkscales', business: 'Personal Web Developer', quote: "I made a business card for myself at first. Emmalee told me she could make one better. So I let her. I love my business card and have a lot of confidence when I give it out to potential clients." },
-        { name: '', business: '', quote: '' },
+        { name: 'George Clinkscales',  business: 'Personal Web Developer', quote: "I made a business card for myself at first. Emmalee told me she could make one better. So I let her. I love my business card and have a lot of confidence when I give it out to potential clients." },
+        { name: 'Dr. Karen Alexander', business: 'White Bear Harmonics',    quote: "I'm so impressed with Emmalee's design work. She took my vision and added style and beauty to create a business card that I know will attract customers and help to grow my wellness company. I highly recommend her work!" },
         { name: '', business: '', quote: '' },
     ];
 
@@ -917,6 +932,7 @@
         const pricingFields = [
             'pricing_bc_price', 'pricing_bc_li_0', 'pricing_bc_li_1', 'pricing_bc_li_2', 'pricing_bc_li_3',
             'pricing_fl_price', 'pricing_fl_li_0', 'pricing_fl_li_1', 'pricing_fl_li_2', 'pricing_fl_li_3',
+            'pricing_inv_price', 'pricing_inv_li_0', 'pricing_inv_li_1', 'pricing_inv_li_2', 'pricing_inv_li_3',
             'pricing_note',
         ];
         pricingFields.forEach(key => {
@@ -1011,6 +1027,11 @@
             pricing_fl_li_1:    document.getElementById('f-pricing-fl-li-1').value,
             pricing_fl_li_2:    document.getElementById('f-pricing-fl-li-2').value,
             pricing_fl_li_3:    document.getElementById('f-pricing-fl-li-3').value,
+            pricing_inv_price:  document.getElementById('f-pricing-inv-price').value,
+            pricing_inv_li_0:   document.getElementById('f-pricing-inv-li-0').value,
+            pricing_inv_li_1:   document.getElementById('f-pricing-inv-li-1').value,
+            pricing_inv_li_2:   document.getElementById('f-pricing-inv-li-2').value,
+            pricing_inv_li_3:   document.getElementById('f-pricing-inv-li-3').value,
             pricing_note:       document.getElementById('f-pricing-note').value,
         };
 
