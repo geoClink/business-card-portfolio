@@ -507,7 +507,6 @@ body {
 .bento-grid.is-filtered .bento-item--wide { grid-column: span 1; }
 
 .bento-item {
-    background-image: var(--card-bg);
     border-radius: var(--radius);
     overflow: hidden;
     cursor: pointer;
@@ -518,6 +517,17 @@ body {
         opacity 0.55s ease,
         transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
         box-shadow 0.28s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-visual {
+    flex: 1;
+    min-height: 0;
+    background-image: var(--card-bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .bento-item.visible {
@@ -557,11 +567,9 @@ body {
 }
 
 .card-body {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 20px 22px;
+    padding: 10px 14px 14px;
+    background: var(--bg-card);
+    position: relative;
     z-index: 1;
 }
 
@@ -570,22 +578,18 @@ body {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.16em;
-    color: rgba(255, 255, 255, 0.75);
-    margin-bottom: 5px;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
 }
 
 .card-title {
     font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: white;
+    font-size: 1.05rem;
+    font-weight: 400;
+    font-style: italic;
+    font-optical-sizing: auto;
+    color: var(--ink);
     line-height: 1.2;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.22);
-}
-
-.bento-item.has-image .card-body {
-    background: linear-gradient(to top, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.18) 55%, transparent 100%);
-    padding-top: 80px;
 }
 
 /* ── About ── */
@@ -1329,27 +1333,119 @@ footer {
 
 /* ── Reviews ── */
 
-.section-reviews {
-    padding: 90px 0;
-    border-top: 1px solid var(--border);
+@keyframes waveTop {
+    from { background-position-x: 0; }
+    to   { background-position-x: -1440px; }
 }
 
-.reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+@keyframes waveBottom {
+    from { background-position-x: 0; }
+    to   { background-position-x: 1440px; }
+}
+
+@keyframes reviewScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+@keyframes reviewFloat {
+    0%, 100% { transform: translateY(0px);  }
+    50%       { transform: translateY(-16px); }
+}
+
+.section-reviews {
+    padding: 110px 0;
+    background: var(--bg-card);
+    position: relative;
+    overflow: hidden;
+}
+
+/* SVG sine-wave caps — fill matches page background, slides to animate */
+.section-reviews::before,
+.section-reviews::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 90px;
+    background-repeat: repeat-x;
+    background-size: 1440px 90px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.section-reviews::before {
+    top: 0;
+    /* top wave: fill covers above the curve, exposing --bg-card below */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='90'%3e%3cpath d='M0,45 C240,0 480,90 720,45 C960,0 1200,90 1440,45 L1440,0 L0,0 Z' fill='%23FAF7F4'/%3e%3c/svg%3e");
+    animation: waveTop 4s linear infinite;
+}
+
+.section-reviews::after {
+    bottom: 0;
+    /* bottom wave: fill covers below the curve */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='90'%3e%3cpath d='M0,45 C240,90 480,0 720,45 C960,90 1200,0 1440,45 L1440,90 L0,90 Z' fill='%23FAF7F4'/%3e%3c/svg%3e");
+    animation: waveBottom 4s linear infinite;
+}
+
+/* Dark mode wave fills */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .section-reviews::before {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='90'%3e%3cpath d='M0,45 C240,0 480,90 720,45 C960,0 1200,90 1440,45 L1440,0 L0,0 Z' fill='%2318130F'/%3e%3c/svg%3e");
+    }
+    :root:not([data-theme="light"]) .section-reviews::after {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='90'%3e%3cpath d='M0,45 C240,90 480,0 720,45 C960,90 1200,0 1440,45 L1440,90 L0,90 Z' fill='%2318130F'/%3e%3c/svg%3e");
+    }
+}
+:root[data-theme="dark"] .section-reviews::before {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='90'%3e%3cpath d='M0,45 C240,0 480,90 720,45 C960,0 1200,90 1440,45 L1440,0 L0,0 Z' fill='%2318130F'/%3e%3c/svg%3e");
+}
+:root[data-theme="dark"] .section-reviews::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='90'%3e%3cpath d='M0,45 C240,90 480,0 720,45 C960,90 1200,0 1440,45 L1440,90 L0,90 Z' fill='%2318130F'/%3e%3c/svg%3e");
+}
+
+/* Keep content above wave pseudo-elements */
+.section-reviews > .container {
+    position: relative;
+    z-index: 3;
+}
+
+.reviews-marquee {
+    overflow: hidden;
     margin-top: 32px;
+    padding-top: 20px;
+    mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+}
+
+.reviews-track {
+    display: flex;
+    gap: 0;
+    width: max-content;
+    animation: reviewScroll 30s linear infinite;
+}
+
+.reviews-marquee:hover .reviews-track {
+    animation-play-state: paused;
 }
 
 .review-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 26px 24px;
+    background: none;
+    border: none;
+    border-left: 2px solid var(--accent);
+    border-radius: 0;
+    padding: 4px 32px 4px 28px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
     margin: 0;
+    flex-shrink: 0;
+    width: 360px;
+    animation: reviewFloat 4s ease-in-out infinite;
+}
+
+.review-card:nth-child(even) {
+    animation-delay: -2s;
 }
 
 .review-card::before {
@@ -1447,10 +1543,6 @@ footer {
         padding: 72px 0;
     }
 
-    .reviews-grid {
-        grid-template-columns: 1fr;
-    }
-
     .section-work {
         padding-bottom: 80px;
     }
@@ -1482,10 +1574,6 @@ footer {
     }
 
     .pricing-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .reviews-grid {
         grid-template-columns: 1fr;
     }
 
@@ -1697,6 +1785,13 @@ footer {
     }
 
     .process-card-scene:hover {
+        animation: none !important;
+    }
+
+    .section-reviews::before,
+    .section-reviews::after,
+    .reviews-track,
+    .review-card {
         animation: none !important;
     }
 

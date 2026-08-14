@@ -87,7 +87,7 @@ const DEFAULT_WORK_ITEMS = [
 ];
 
 // Bump this string whenever default data changes in a meaningful way
-const DATA_VERSION = '7';
+const DATA_VERSION = '8';
 (function() {
     if (localStorage.getItem('data_v') !== DATA_VERSION) {
         localStorage.removeItem('work_items');
@@ -131,19 +131,47 @@ function loadContent() {
         if (descEl)  descEl.textContent  = content['process_' + n + '_desc'];
     });
 
-    // Reviews
+    // Reviews — marquee
     const reviews = JSON.parse(localStorage.getItem('reviews') || 'null') || DEFAULT_REVIEWS;
-    reviews.forEach((review, i) => {
-        const card       = document.getElementById('review-card-' + i);
-        const quoteEl    = document.getElementById('review-' + i + '-quote');
-        const nameEl     = document.getElementById('review-' + i + '-name');
-        const businessEl = document.getElementById('review-' + i + '-business');
-        if (!card) return;
-        if (!review.quote.trim()) { card.hidden = true; return; }
-        if (quoteEl)    quoteEl.textContent    = review.quote;
-        if (nameEl)     nameEl.textContent     = review.name;
-        if (businessEl) businessEl.textContent = review.business;
-    });
+    const track = document.getElementById('reviews-track');
+    if (track) {
+        const real = reviews.filter(r => r.quote && r.quote.trim());
+        if (real.length > 0) {
+            // Repeat until we have at least 8 cards, then double for seamless loop
+            const minCount = 8;
+            const repeated = [];
+            while (repeated.length < minCount) repeated.push(...real);
+            [...repeated, ...repeated].forEach(review => {
+                const card = document.createElement('figure');
+                card.className = 'review-card';
+
+                const quote = document.createElement('blockquote');
+                quote.className = 'review-quote';
+                quote.textContent = review.quote;
+
+                const caption = document.createElement('figcaption');
+                caption.className = 'review-byline';
+
+                const name = document.createElement('span');
+                name.className = 'review-name';
+                name.textContent = review.name;
+
+                const business = document.createElement('span');
+                business.className = 'review-business';
+                business.textContent = review.business;
+
+                caption.appendChild(name);
+                caption.appendChild(business);
+                card.appendChild(quote);
+                card.appendChild(caption);
+                track.appendChild(card);
+            });
+
+            // Scale scroll speed to number of cards (340px per card at ~80px/s)
+            const duration = repeated.length * 340 / 80;
+            track.style.animationDuration = `${Math.round(duration)}s`;
+        }
+    }
 
     // Pricing
     const pricingIds = [
@@ -167,15 +195,14 @@ function loadContent() {
         if (titleEl) titleEl.textContent = work.title;
 
         if (work.image) {
-            item.style.backgroundImage    = `url(images/${work.image})`;
-            item.style.backgroundSize     = work.bgSize || 'cover';
-            item.style.backgroundPosition = work.bgPos || 'center';
-            item.style.backgroundRepeat   = 'no-repeat';
-            item.classList.add('has-image');
-            if (work.category === 'Business Card' && work.imgRatio) {
-                item.style.aspectRatio = String(work.imgRatio);
-                item.style.alignSelf   = 'start';
+            const visual = item.querySelector('.card-visual');
+            if (visual) {
+                visual.style.backgroundImage    = `url(images/${work.image})`;
+                visual.style.backgroundSize     = work.bgSize || 'cover';
+                visual.style.backgroundPosition = work.bgPos || 'center';
+                visual.style.backgroundRepeat   = 'no-repeat';
             }
+            item.classList.add('has-image');
         }
 
         item.addEventListener('click', () => openModal(idx));

@@ -143,6 +143,7 @@
             <div class="bento-grid">
                 <div class="bento-item bento-item--tall" data-category="flyers" data-index="0"
                     style="--card-bg: linear-gradient(160deg, #9AB8AC, #7E9E94);">
+                    <div class="card-visual"></div>
                     <div class="card-body">
                         <p class="card-label">Flyer</p>
                         <h3 class="card-title"></h3>
@@ -151,6 +152,7 @@
 
                 <div class="bento-item" data-category="business-cards" data-index="1"
                     style="--card-bg: linear-gradient(160deg, #CBAFB7, #A89098);">
+                    <div class="card-visual"></div>
                     <div class="card-body">
                         <p class="card-label">Business Card</p>
                         <h3 class="card-title"></h3>
@@ -159,6 +161,7 @@
 
                 <div class="bento-item" data-category="business-cards" data-index="2"
                     style="--card-bg: linear-gradient(160deg, #C8B898, #B4A282);">
+                    <div class="card-visual"></div>
                     <div class="card-body">
                         <p class="card-label">Business Card</p>
                         <h3 class="card-title"></h3>
@@ -167,6 +170,7 @@
 
                 <div class="bento-item bento-item--wide" data-category="flyers" data-index="3"
                     style="--card-bg: linear-gradient(160deg, #B4B0C8, #9A96B4);">
+                    <div class="card-visual"></div>
                     <div class="card-body">
                         <p class="card-label">Flyer</p>
                         <h3 class="card-title"></h3>
@@ -282,28 +286,8 @@
     <section id="reviews" class="section-reviews">
         <div class="container reveal">
             <span class="eyebrow">Reviews</span>
-            <div class="reviews-grid">
-                <figure class="review-card" id="review-card-0">
-                    <blockquote class="review-quote" id="review-0-quote"></blockquote>
-                    <figcaption class="review-byline">
-                        <span class="review-name" id="review-0-name"></span>
-                        <span class="review-business" id="review-0-business"></span>
-                    </figcaption>
-                </figure>
-                <figure class="review-card" id="review-card-1">
-                    <blockquote class="review-quote" id="review-1-quote"></blockquote>
-                    <figcaption class="review-byline">
-                        <span class="review-name" id="review-1-name"></span>
-                        <span class="review-business" id="review-1-business"></span>
-                    </figcaption>
-                </figure>
-                <figure class="review-card" id="review-card-2">
-                    <blockquote class="review-quote" id="review-2-quote"></blockquote>
-                    <figcaption class="review-byline">
-                        <span class="review-name" id="review-2-name"></span>
-                        <span class="review-business" id="review-2-business"></span>
-                    </figcaption>
-                </figure>
+            <div class="reviews-marquee">
+                <div class="reviews-track" id="reviews-track"></div>
             </div>
         </div>
     </section>
