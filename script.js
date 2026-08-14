@@ -62,7 +62,7 @@ const DEFAULT_CONTENT = {
     contact_handle_url: '#',
     process_1_title: 'Reach out',
     process_1_desc:  "Tell me about your business, the vibe you're after, and any ideas you have. No design experience needed on your end.",
-    process_2_title: 'We design it',
+    process_2_title: 'I design it',
     process_2_desc:  "I'll share a few concepts and we'll refine together until it feels exactly right — back and forth until you love it.",
     process_3_title: 'Files delivered',
     process_3_desc:  'High-res, print-ready files straight to your inbox, ready to hand off to any printer. Social sizes included if you need them.',
@@ -80,17 +80,19 @@ const DEFAULT_CONTENT = {
 };
 
 const DEFAULT_WORK_ITEMS = [
-    { title: 'White Bear Harmonics',       desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Custom logo, branded navy palette, and a services QR code on the back — drag to flip.',          category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG' },
-    { title: 'Graduation Party Invite',    desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',               category: 'Flyer',         image: 'emmalee-grad-invite.PNG',          imageBack: '' },
-    { title: 'Graduation Thank You',       desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: '' },
-    { title: 'George Clinkscales',         desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.', category: 'Business Card', image: 'george-card.JPG',                  imageBack: '' },
-    { title: 'White Bear Harmonics Print', desc: 'Real-world print mockup of the finished card — showing how the navy front and white services back look together fresh from the printer.',                                      category: 'Business Card', image: 'karen-card.JPG',                   imageBack: '' },
+    { title: 'Graduation Party Invite', desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',                                      category: 'Flyer',         image: 'emmalee-grad-invite.PNG',           imageBack: '' },
+    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG',  imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com' },
+    { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',            imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com' },
+    { title: 'Graduation Thank You',    desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',        imageBack: '', bgPos: 'top' },
 ];
 
-// Reset work_items if they're from the old placeholder data (no image field)
+// Bump this string whenever default data changes in a meaningful way
+const DATA_VERSION = '4';
 (function() {
-    const saved = JSON.parse(localStorage.getItem('work_items') || 'null');
-    if (saved && !saved[0].image && !saved[0].imageBack) localStorage.removeItem('work_items');
+    if (localStorage.getItem('data_v') !== DATA_VERSION) {
+        localStorage.removeItem('work_items');
+        localStorage.setItem('data_v', DATA_VERSION);
+    }
 })();
 
 const workItems = JSON.parse(localStorage.getItem('work_items') || 'null') || DEFAULT_WORK_ITEMS;
@@ -166,12 +168,11 @@ function loadContent() {
 
         if (work.image) {
             item.style.backgroundImage    = `url(images/${work.image})`;
-            item.style.backgroundSize     = 'cover';
-            item.style.backgroundPosition = 'center';
+            item.style.backgroundSize     = work.bgSize || 'cover';
+            item.style.backgroundPosition = work.bgPos || 'center';
+            item.style.backgroundRepeat   = 'no-repeat';
             item.classList.add('has-image');
-        }
 
-        if (work.imageBack) {
             const badge = document.createElement('span');
             badge.className   = 'badge-3d';
             badge.textContent = '3D ✦';
@@ -366,28 +367,38 @@ function openModal(index) {
     modalTitle.textContent    = work.title;
     modalDesc.textContent     = work.desc;
 
+    const websiteEl = document.getElementById('modal-website');
+    if (websiteEl) {
+        if (work.link) {
+            websiteEl.href        = work.link;
+            websiteEl.textContent = work.link.replace(/^https?:\/\//, '') + ' →';
+            websiteEl.hidden      = false;
+        } else {
+            websiteEl.hidden = true;
+        }
+    }
+
     stop3DSpin();
     isDragging3D = false;
 
-    if (work.image && work.imageBack) {
-        // 3D double-sided
+    if (work.image) {
         document.getElementById('modal-image-front').src = `images/${work.image}`;
         document.getElementById('modal-image-front').alt = work.title;
-        document.getElementById('modal-image-back').src  = `images/${work.imageBack}`;
-        document.getElementById('modal-image-back').alt  = work.title + ' back';
+        const backImg = document.getElementById('modal-image-back');
+        if (work.imageBack) {
+            backImg.src    = `images/${work.imageBack}`;
+            backImg.alt    = work.title + ' back';
+            backImg.hidden = false;
+        } else {
+            backImg.removeAttribute('src');
+            backImg.hidden = true;
+        }
         modalImageWrap.classList.add('has-back');
         modalImageWrap.hidden = false;
         modalPanel.classList.add('has-image');
         spinAngle = 0;
         applyCardAngle(0);
         start3DSpin();
-    } else if (work.image) {
-        // Flat single-sided
-        modalImage.src = `images/${work.image}`;
-        modalImage.alt = work.title;
-        modalImageWrap.classList.remove('has-back');
-        modalImageWrap.hidden = false;
-        modalPanel.classList.add('has-image');
     } else {
         modalImageWrap.classList.remove('has-back');
         modalImageWrap.hidden = true;

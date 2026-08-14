@@ -128,15 +128,7 @@
             </div>
 
             <div class="bento-grid">
-                <div class="bento-item bento-item--tall" data-category="business-cards" data-index="0"
-                    style="--card-bg: linear-gradient(160deg, #CBAFB7, #A89098);">
-                    <div class="card-body">
-                        <p class="card-label">Business Card</p>
-                        <h3 class="card-title"></h3>
-                    </div>
-                </div>
-
-                <div class="bento-item" data-category="flyers" data-index="1"
+                <div class="bento-item bento-item--tall" data-category="flyers" data-index="0"
                     style="--card-bg: linear-gradient(160deg, #9AB8AC, #7E9E94);">
                     <div class="card-body">
                         <p class="card-label">Flyer</p>
@@ -144,15 +136,15 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="flyers" data-index="2"
-                    style="--card-bg: linear-gradient(160deg, #B4B0C8, #9A96B4);">
+                <div class="bento-item" data-category="business-cards" data-index="1"
+                    style="--card-bg: linear-gradient(160deg, #CBAFB7, #A89098);">
                     <div class="card-body">
-                        <p class="card-label">Flyer</p>
+                        <p class="card-label">Business Card</p>
                         <h3 class="card-title"></h3>
                     </div>
                 </div>
 
-                <div class="bento-item bento-item--wide" data-category="business-cards" data-index="3"
+                <div class="bento-item" data-category="business-cards" data-index="2"
                     style="--card-bg: linear-gradient(160deg, #C8B898, #B4A282);">
                     <div class="card-body">
                         <p class="card-label">Business Card</p>
@@ -160,13 +152,14 @@
                     </div>
                 </div>
 
-                <div class="bento-item bento-item--wide" data-category="business-cards" data-index="4"
-                    style="--card-bg: linear-gradient(160deg, #C0ACAC, #A89494);">
+                <div class="bento-item bento-item--wide" data-category="flyers" data-index="3"
+                    style="--card-bg: linear-gradient(160deg, #B4B0C8, #9A96B4);">
                     <div class="card-body">
-                        <p class="card-label">Business Card</p>
+                        <p class="card-label">Flyer</p>
                         <h3 class="card-title"></h3>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -359,7 +352,7 @@
                             <img id="modal-image-back" class="card-face-img" src="" alt="">
                         </div>
                     </div>
-                    <p class="card-3d-hint">Drag to spin · pinch to flip</p>
+                    <p class="card-3d-hint">Drag to spin</p>
                 </div>
             </div>
             <div class="modal-body">
@@ -367,6 +360,7 @@
                 <h2 id="modal-title" class="modal-title"></h2>
                 <p id="modal-desc" class="modal-desc"></p>
                 <a href="#contact" class="modal-cta" onclick="closeModal()">Inquire about this style →</a>
+                <a id="modal-website" class="modal-website" href="" target="_blank" rel="noopener noreferrer" hidden></a>
             </div>
             <div class="modal-nav">
                 <button class="modal-nav-btn" id="modal-prev" aria-label="Previous work">← Prev</button>
