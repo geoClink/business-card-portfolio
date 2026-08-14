@@ -81,8 +81,8 @@ const DEFAULT_CONTENT = {
 
 const DEFAULT_WORK_ITEMS = [
     { title: 'Graduation Party Invite', desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',                                      category: 'Flyer',         image: 'emmalee-grad-invite.PNG',          imageBack: 'emmalee-grad-invite.PNG',          imgRatio: 0.71, imgPos: 'top', noDrag: true },
-    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com',    imgRatio: 1.75, bgSize: 'contain' },
-    { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',           imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com', imgRatio: 1.75, bgSize: 'contain' },
+    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com',    imgRatio: 1.75 },
+    { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',           imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com', imgRatio: 1.75 },
     { title: 'Graduation Thank You Card', desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: 'emmalee-grad-thank-you.PNG',       bgPos: 'top',  imgRatio: 1.50, noDrag: true },
 ];
 
@@ -172,7 +172,10 @@ function loadContent() {
             item.style.backgroundPosition = work.bgPos || 'center';
             item.style.backgroundRepeat   = 'no-repeat';
             item.classList.add('has-image');
-
+            if (work.category === 'Business Card' && work.imgRatio) {
+                item.style.aspectRatio = String(work.imgRatio);
+                item.style.alignSelf   = 'start';
+            }
         }
 
         item.addEventListener('click', () => openModal(idx));

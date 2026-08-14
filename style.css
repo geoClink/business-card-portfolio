@@ -1118,6 +1118,7 @@ footer {
 }
 
 .modal-cta {
+    display: block;
     font-size: 0.9rem;
     color: var(--accent);
     text-decoration: none;
