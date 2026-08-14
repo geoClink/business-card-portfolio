@@ -941,7 +941,7 @@ body {
 
 .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: 20px;
     margin-top: 32px;
 }
@@ -1725,11 +1725,7 @@ footer {
     }
 
     .pricing-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .pricing-grid .pricing-card--invitations {
-        grid-column: span 2;
+        grid-template-columns: 1fr;
     }
 
     .process-steps {
