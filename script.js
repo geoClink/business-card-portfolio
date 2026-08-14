@@ -83,7 +83,7 @@ const DEFAULT_WORK_ITEMS = [
     { title: 'Graduation Party Invite', desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',                                      category: 'Flyer',         image: 'emmalee-grad-invite.PNG',          imageBack: 'emmalee-grad-invite.PNG',          imgRatio: 0.71, imgPos: 'top', noDrag: true },
     { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com',    imgRatio: 1.75, bgSize: '75%' },
     { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',           imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com', imgRatio: 1.75, bgSize: '75%' },
-    { title: 'Graduation Thank You',    desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: 'emmalee-grad-thank-you.PNG',       bgPos: 'top',  imgRatio: 1.50, noDrag: true },
+    { title: 'Graduation Thank You Card', desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: 'emmalee-grad-thank-you.PNG',       bgPos: 'top',  imgRatio: 1.50, noDrag: true },
 ];
 
 // Bump this string whenever default data changes in a meaningful way
@@ -413,7 +413,7 @@ function openModal(index) {
             if (work.imgRatio) {
                 const wrapWidth = modalImageWrap.clientWidth || (isMobile ? 320 : 540);
                 const idealH    = Math.round(wrapWidth / work.imgRatio);
-                const maxH      = isMobile ? 200 : 360;
+                const maxH      = isMobile && isPortrait ? 520 : (isMobile ? 200 : 360);
                 const minH      = isMobile ? 120 : 160;
                 modalImageWrap.style.height = Math.min(maxH, Math.max(minH, idealH)) + 'px';
             } else {
@@ -548,3 +548,27 @@ const sectionObserver = new IntersectionObserver((entries) => {
 }, { rootMargin: '-40% 0px -55% 0px' });
 
 document.querySelectorAll('section[id]').forEach(sec => sectionObserver.observe(sec));
+
+// ── Contact form — submit without navigating away ──
+const contactForm = document.getElementById('contact-form');
+const formSuccess = document.getElementById('form-success');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const data = new FormData(contactForm);
+        const response = await fetch(contactForm.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' },
+        });
+
+        if (response.ok) {
+            contactForm.hidden = true;
+            formSuccess.hidden = false;
+        } else {
+            alert('Something went wrong — please try emailing me directly.');
+        }
+    });
+}

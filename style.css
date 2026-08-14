@@ -773,6 +773,13 @@ body {
     opacity: 0.88;
 }
 
+.form-success {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: var(--color-text);
+    opacity: 0.75;
+}
+
 /* ── Pricing + About shared row ── */
 
 .section-split-wrap {
@@ -1571,6 +1578,9 @@ footer {
 
     .modal-panel {
         border-radius: 14px;
+        max-height: 90vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .modal-image-wrap {
@@ -1583,7 +1593,8 @@ footer {
 
     .modal-panel--portrait .modal-image-wrap {
         width: 100% !important;
-        height: 200px !important;
+        height: auto !important;
+        aspect-ratio: 3 / 4;
     }
 
     .modal-panel--portrait .modal-body {
