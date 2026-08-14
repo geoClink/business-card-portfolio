@@ -80,14 +80,14 @@ const DEFAULT_CONTENT = {
 };
 
 const DEFAULT_WORK_ITEMS = [
-    { title: 'Graduation Party Invite', desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',                                      category: 'Flyer',         image: 'emmalee-grad-invite.PNG',          imageBack: '', imgRatio: 0.71, imgPos: 'top' },
-    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com',    imgRatio: 1.75 },
-    { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',           imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com', imgRatio: 1.75 },
-    { title: 'Graduation Thank You',    desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: '', bgPos: 'top',  imgRatio: 1.50 },
+    { title: 'Graduation Party Invite', desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',                                      category: 'Flyer',         image: 'emmalee-grad-invite.PNG',          imageBack: 'emmalee-grad-invite.PNG',          imgRatio: 0.71, imgPos: 'top', noDrag: true },
+    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com',    imgRatio: 1.75, bgSize: '75%' },
+    { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',           imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com', imgRatio: 1.75, bgSize: '75%' },
+    { title: 'Graduation Thank You',    desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: 'emmalee-grad-thank-you.PNG',       bgPos: 'top',  imgRatio: 1.50, noDrag: true },
 ];
 
 // Bump this string whenever default data changes in a meaningful way
-const DATA_VERSION = '5';
+const DATA_VERSION = '7';
 (function() {
     if (localStorage.getItem('data_v') !== DATA_VERSION) {
         localStorage.removeItem('work_items');
@@ -173,10 +173,6 @@ function loadContent() {
             item.style.backgroundRepeat   = 'no-repeat';
             item.classList.add('has-image');
 
-            const badge = document.createElement('span');
-            badge.className   = 'badge-3d';
-            badge.textContent = '3D ✦';
-            item.appendChild(badge);
         }
 
         item.addEventListener('click', () => openModal(idx));
@@ -284,10 +280,11 @@ filterButtons.forEach(btn => {
 
 // ── 3D card rotation ──
 
-let spinAnimFrame  = null;
-let spinAngle      = 0;
-let isDragging3D   = false;
-let drag3DStartX   = 0;
+let spinAnimFrame   = null;
+let spinAngle       = 0;
+let isDragging3D    = false;
+let dragEnabled3D   = true;
+let drag3DStartX    = 0;
 let drag3DBaseAngle = 0;
 
 const card3dEl    = document.getElementById('modal-card-3d');
@@ -314,8 +311,9 @@ function stop3DSpin() {
 }
 
 card3dEl.addEventListener('mousedown', e => {
-    isDragging3D   = true;
-    drag3DStartX   = e.clientX;
+    if (!dragEnabled3D) return;
+    isDragging3D    = true;
+    drag3DStartX    = e.clientX;
     drag3DBaseAngle = spinAngle;
     card3dEl.style.transition = 'none';
 });
@@ -329,6 +327,7 @@ document.addEventListener('mousemove', e => {
 document.addEventListener('mouseup', () => { isDragging3D = false; });
 
 card3dEl.addEventListener('touchstart', e => {
+    if (!dragEnabled3D) return;
     isDragging3D    = true;
     drag3DStartX    = e.touches[0].clientX;
     drag3DBaseAngle = spinAngle;
@@ -369,7 +368,7 @@ function openModal(index) {
 
     const websiteEl = document.getElementById('modal-website');
     if (websiteEl) {
-        if (work.link) {
+        if (work.link && work.category === 'Business Card') {
             websiteEl.href   = work.link;
             websiteEl.hidden = false;
         } else {
@@ -399,14 +398,34 @@ function openModal(index) {
             backImg.style.display = 'none';
         }
 
-        // Size the wrap to match the image's natural aspect ratio (no letterboxing)
-        if (work.imgRatio) {
-            const wrapWidth = modalImageWrap.clientWidth || 540;
-            const ideal     = Math.round(wrapWidth / work.imgRatio);
-            modalImageWrap.style.height = Math.min(380, Math.max(200, ideal)) + 'px';
+        // Portrait flyers: side-by-side layout. Everything else: stacked.
+        const isMobile   = window.innerWidth < 700;
+        const isPortrait = work.imgRatio && work.imgRatio < 1;
+
+        if (isPortrait && !isMobile) {
+            modalPanel.classList.add('modal-panel--portrait');
+            const flyerW = 260;
+            modalImageWrap.style.width  = flyerW + 'px';
+            modalImageWrap.style.height = Math.round(flyerW / work.imgRatio) + 'px';
         } else {
-            modalImageWrap.style.height = '';
+            modalPanel.classList.remove('modal-panel--portrait');
+            modalImageWrap.style.width = '';
+            if (work.imgRatio) {
+                const wrapWidth = modalImageWrap.clientWidth || (isMobile ? 320 : 540);
+                const idealH    = Math.round(wrapWidth / work.imgRatio);
+                const maxH      = isMobile ? 200 : 360;
+                const minH      = isMobile ? 120 : 160;
+                modalImageWrap.style.height = Math.min(maxH, Math.max(minH, idealH)) + 'px';
+            } else {
+                modalImageWrap.style.height = '';
+            }
         }
+
+        dragEnabled3D = !work.noDrag;
+        card3dEl.style.cursor = dragEnabled3D ? '' : 'default';
+
+        const hint = document.querySelector('.card-3d-hint');
+        if (hint) hint.hidden = !!work.noDrag;
 
         modalImageWrap.classList.add('has-back');
         modalImageWrap.hidden = false;
@@ -434,6 +453,11 @@ function openModal(index) {
 function closeModal() {
     stop3DSpin();
     isDragging3D = false;
+    modalPanel.classList.remove('modal-panel--portrait');
+    modalImageWrap.style.width  = '';
+    modalImageWrap.style.height = '';
+    dragEnabled3D = true;
+    card3dEl.style.cursor = '';
     modal.classList.remove('is-open');
     modal.classList.add('is-closing');
     setTimeout(() => {
