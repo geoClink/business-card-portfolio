@@ -80,14 +80,14 @@ const DEFAULT_CONTENT = {
 };
 
 const DEFAULT_WORK_ITEMS = [
-    { title: 'Graduation Party Invite', desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',                                      category: 'Flyer',         image: 'emmalee-grad-invite.PNG',           imageBack: '' },
-    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG',  imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com' },
-    { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',            imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com' },
-    { title: 'Graduation Thank You',    desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',        imageBack: '', bgPos: 'top' },
+    { title: 'Graduation Party Invite', desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',                                      category: 'Flyer',         image: 'emmalee-grad-invite.PNG',          imageBack: '', imgRatio: 0.71, imgPos: 'top' },
+    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com',    imgRatio: 1.75 },
+    { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',           imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com', imgRatio: 1.75 },
+    { title: 'Graduation Thank You',    desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: '', bgPos: 'top',  imgRatio: 1.50 },
 ];
 
 // Bump this string whenever default data changes in a meaningful way
-const DATA_VERSION = '4';
+const DATA_VERSION = '5';
 (function() {
     if (localStorage.getItem('data_v') !== DATA_VERSION) {
         localStorage.removeItem('work_items');
@@ -382,17 +382,33 @@ function openModal(index) {
     isDragging3D = false;
 
     if (work.image) {
-        document.getElementById('modal-image-front').src = `images/${work.image}`;
-        document.getElementById('modal-image-front').alt = work.title;
+        const frontImg = document.getElementById('modal-image-front');
+        frontImg.src            = `images/${work.image}`;
+        frontImg.alt            = work.title;
+        frontImg.style.objectPosition = work.imgPos || 'center';
+
         const backImg = document.getElementById('modal-image-back');
         if (work.imageBack) {
-            backImg.src    = `images/${work.imageBack}`;
-            backImg.alt    = work.title + ' back';
-            backImg.hidden = false;
+            backImg.src          = `images/${work.imageBack}`;
+            backImg.alt          = work.title + ' back';
+            backImg.hidden       = false;
+            backImg.style.display = '';
         } else {
             backImg.removeAttribute('src');
-            backImg.hidden = true;
+            backImg.alt          = '';
+            backImg.hidden       = true;
+            backImg.style.display = 'none';
         }
+
+        // Size the wrap to match the image's natural aspect ratio (no letterboxing)
+        if (work.imgRatio) {
+            const wrapWidth = modalImageWrap.clientWidth || 540;
+            const ideal     = Math.round(wrapWidth / work.imgRatio);
+            modalImageWrap.style.height = Math.min(380, Math.max(200, ideal)) + 'px';
+        } else {
+            modalImageWrap.style.height = '';
+        }
+
         modalImageWrap.classList.add('has-back');
         modalImageWrap.hidden = false;
         modalPanel.classList.add('has-image');
