@@ -84,10 +84,12 @@ const DEFAULT_WORK_ITEMS = [
     { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com',    imgRatio: 1.75 },
     { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',           imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com', imgRatio: 1.75 },
     { title: 'Graduation Thank You Card', desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: 'emmalee-grad-thank-you.PNG',       bgPos: 'top',  imgRatio: 1.50, noDrag: true },
+    { title: 'Wedding Invitation',        desc: 'Vintage modern minimal wedding invitation — editorial serif type over a candid photo, warm and timeless. A spec piece showing what a custom wedding suite could look like.',                              category: 'Invitation',    image: 'wedding-invitation.PNG',      imageBack: 'wedding-invitation.PNG',      imgRatio: 0.71, imgPos: 'top', noDrag: true, spec: true },
+    { title: 'Baby Shower Invitation',    desc: 'Pink and brown illustrative baby shower invitation — whimsical goose illustration, soft palette, handwritten-style type. A spec piece showing a full event invitation package.',                         category: 'Invitation',    image: 'baby-shower-invitation.PNG',  imageBack: 'baby-shower-invitation.PNG',  imgRatio: 0.75, imgPos: 'top', noDrag: true, spec: true },
 ];
 
 // Bump this string whenever default data changes in a meaningful way
-const DATA_VERSION = '8';
+const DATA_VERSION = '9';
 (function() {
     if (localStorage.getItem('data_v') !== DATA_VERSION) {
         localStorage.removeItem('work_items');
@@ -393,6 +395,8 @@ function openModal(index) {
     const work = workItems[index];
 
     modalCategory.textContent = work.category;
+    const modalSpecBadge = document.getElementById('modal-spec-badge');
+    if (modalSpecBadge) modalSpecBadge.hidden = !work.spec;
     modalTitle.textContent    = work.title;
     modalDesc.textContent     = work.desc;
 
