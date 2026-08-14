@@ -57,7 +57,7 @@ applyFonts();
 const DEFAULT_CONTENT = {
     about_p1:        "I'm Emmalee, a 19-year-old designer from Frankfort, MI. I started making business cards and flyers because I love how good design can make something feel real — like a brand that actually means something.",
     about_p2:        "I'm still early in my journey, but I take every project seriously. I work from scratch, I listen, and I don't stop until it feels right.",
-    contact_email:   'hello@yourname.com',
+    contact_email:   'emmaleealexander527@gmail.com',
     contact_handle:  '@yourhandle',
     contact_handle_url: '#',
     process_1_title: 'Reach out',
@@ -81,8 +81,8 @@ const DEFAULT_CONTENT = {
 
 const DEFAULT_WORK_ITEMS = [
     { title: 'Graduation Party Invite', desc: 'Gold botanical graduation party invitation with personal photo, elegant script type, and a floral illustration border — designed for print and ready to mail.',                                      category: 'Flyer',         image: 'emmalee-grad-invite.PNG',          imageBack: 'emmalee-grad-invite.PNG',          imgRatio: 0.71, imgPos: 'top', noDrag: true },
-    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com',    imgRatio: 1.75, bgSize: '75%' },
-    { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',           imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com', imgRatio: 1.75, bgSize: '75%' },
+    { title: 'White Bear Harmonics',    desc: 'Two-sided business card for a holistic health practice in Northern Michigan. Logo and card designed from scratch — branded navy palette, clean typography, and a services QR code on the back.',  category: 'Business Card', image: 'whitebear-harmonics-front.PNG', imageBack: 'whitebear-harmoincs-back.PNG', link: 'https://whitebearharmonics.com',    imgRatio: 1.75, bgSize: 'contain' },
+    { title: 'George Clinkscales',      desc: 'High-contrast black and white card for an iOS and full stack engineer. Clean split-panel layout with contact info on the left and services on the right, QR code on the back.',                      category: 'Business Card', image: 'george-card-front.PNG',           imageBack: 'george-card-back.PNG',         link: 'https://georgeclinkscalesdev.com', imgRatio: 1.75, bgSize: 'contain' },
     { title: 'Graduation Thank You Card', desc: 'Matching thank you card to close the graduation suite — bold pink script, personal photo, and a handwritten-style signature.',                                                                       category: 'Flyer',         image: 'emmalee-grad-thank-you.PNG',       imageBack: 'emmalee-grad-thank-you.PNG',       bgPos: 'top',  imgRatio: 1.50, noDrag: true },
 ];
 
@@ -98,9 +98,9 @@ const DATA_VERSION = '7';
 const workItems = JSON.parse(localStorage.getItem('work_items') || 'null') || DEFAULT_WORK_ITEMS;
 
 const DEFAULT_REVIEWS = [
-    { name: 'Sarah T.', business: 'Bloom Floral Co.', quote: "Emmalee nailed exactly what I had in my head on the first try. My business cards are the best marketing I've ever done." },
-    { name: 'Marcus R.', business: 'Lakeside Roofing', quote: "Turned my boring idea into something I'm actually proud to hand out. Fast, easy, and the file was perfect for printing." },
-    { name: 'Jenna K.', business: 'The Honey Table', quote: "I got so many compliments on my flyer at the farmers market. Would hire again without a second thought." },
+    { name: 'George Clinkscales', business: 'Personal Web Developer', quote: "I made a business card for myself at first. Emmalee told me she could make one better. So I let her. I love my business card and have a lot of confidence when I give it out to potential clients." },
+    { name: '', business: '', quote: '' },
+    { name: '', business: '', quote: '' },
 ];
 
 // ── Load & apply editable content from localStorage ──
